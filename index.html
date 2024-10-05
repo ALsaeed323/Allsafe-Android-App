@@ -130,6 +130,40 @@
                 Insecure logging can pose a significant security risk. Developers should be cautious about what data is logged and ensure that sensitive information is adequately protected or omitted from logs.
             </p>
         </section>
+        <section id="hardcoded-credentials" class="mb-5">
+            <h2>Hardcoded Credentials Challenge</h2>
+            <p>
+                In this challenge, you will discover credentials located in different parts of the application.
+            </p>
+            
+            <h3>First Credential Location</h3>
+            <p>
+                The first credential can be found in the following location:
+            </p>
+            <div class="text-center mb-4">
+                <img src="./images/hardcrad1.png" alt="Hardcoded Credential 1" class="img-fluid mb-2" />
+                <p class="caption">Location of the first hardcoded credential.</p>
+            </div>
+            
+            <h3>Second Credential Location</h3>
+            <p>
+                The second credential requires more in-depth tracing of the code.
+            </p>
+            <div class="text-center mb-4">
+                <img src="./images/hardcrad2.png" alt="Hardcoded Credential 2" class="img-fluid mb-2" />
+                <p class="caption">Location of the second hardcoded credential.</p>
+            </div>
+        
+            <h3>Finding the `dev_env` String</h3>
+            <p>
+                To find the `dev_env` string, navigate to <code>/Resources/resources.arsc/res/values/strings.xml</code> and search for it.
+            </p>
+            <div class="text-center mb-4">
+                <img src="./images/hardcra3.png" alt="Finding dev_env String" class="img-fluid mb-2" />
+                <p class="caption">Searching for the dev_env string in strings.xml.</p>
+            </div>
+        </section>
+        
         
         <footer class="text-center">
             <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

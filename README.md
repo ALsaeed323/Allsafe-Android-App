@@ -27,12 +27,17 @@ This repository covers the following areas of Android pentesting:
 ---
 
 ## Tools Overview
+
 The challenges in this repository involve using a variety of tools to perform static and dynamic analysis, reverse engineering, and exploit Android vulnerabilities. Below is a brief overview of the key tools you will be using:
 
 - **adb (Android Debug Bridge)**: The command-line tool to interact with Android devices and monitor system logs.
 - **Frida**: A powerful dynamic instrumentation toolkit used to hook and modify app behavior in real-time.
 - **apktool**: A tool for reverse engineering Android APKs, used to decompile and analyze the app’s resources and manifest files.
-- **Medusa**: A password-cracking tool that is used to brute-force authentication systems.
+- **MEDUSA**: An extensible and modularized framework that automates processes and techniques practiced during the dynamic analysis of Android and iOS applications. It assists in:
+  - **Dynamic Function Tracing**: Track how sensitive data is processed in real-time during app execution.
+  - **Tampering with App Behavior**: Modify or bypass security controls like root detection, SSL pinning, and more.
+  - **Cross-Platform Support**: Analyze both Android and iOS apps.
+  - **Modular Design**: Extend the framework with custom modules for specific testing needs.
 - **Mobile Security Framework (MobSF)**: An open-source security analysis tool for performing static and dynamic analysis of Android APKs.
 - **Drozer**: A comprehensive security testing framework that allows interaction with Android apps, particularly for assessing IPC (Inter-Process Communication) mechanisms.
 

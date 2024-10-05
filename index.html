@@ -1,182 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
-        h1 {
-            color: #007bff;
-            margin-bottom: 30px;
-        }
-        h2 {
-            color: #343a40;
-            margin-top: 30px;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-        }
-        p {
-            line-height: 1.6;
-        }
-        ol {
-            margin-left: 20px;
-        }
-        .list-group-item {
-            transition: background-color 0.3s;
-        }
-        .list-group-item:hover {
-            background-color: #e9ecef;
-            cursor: pointer;
-        }
-        footer {
-            margin-top: 40px;
-            padding: 20px 0;
-            background-color: #007bff;
-            color: #ffffff;
-        }
-        .caption {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
+      body {
+        background-color: #f8f9fa;
+        font-family: "Arial", sans-serif;
+      }
+      h1 {
+        color: #007bff;
+        margin-bottom: 30px;
+      }
+      h2 {
+        color: #343a40;
+        margin-top: 30px;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+      }
+      p {
+        line-height: 1.6;
+      }
+      ol {
+        margin-left: 20px;
+      }
+      .list-group-item {
+        transition: background-color 0.3s;
+      }
+      .list-group-item:hover {
+        background-color: #e9ecef;
+        cursor: pointer;
+      }
+      footer {
+        margin-top: 40px;
+        padding: 20px 0;
+        background-color: #007bff;
+        color: #ffffff;
+      }
+      .caption {
+        font-size: 0.85rem;
+        color: #6c757d;
+      }
+      #intro {
+        padding: 20px;
+        background-color: #f9f9f9; /* Light background for contrast */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      }
+
+      #intro h2 {
+        font-size: 24px;
+        color: #333; /* Darker color for the heading */
+        margin-bottom: 10px; /* Space below the heading */
+      }
+
+      #intro p {
+        font-size: 16px;
+        color: #555; /* Slightly lighter color for the text */
+        line-height: 1.5; /* Improved line spacing */
+      }
+
+      #intro img {
+        max-width: 100%; /* Responsive image */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 4px; /* Rounded corners for the image */
+        margin-top: 10px; /* Space above the image */
+      }
     </style>
     <title>Android Pentesting Challenges</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container my-5">
-        <h1 class="text-center">Android pentesting challenges on Allsafe </h1>
-        <ul class="list-group mb-5">
-            <li class="list-group-item"><a href="#insecure-logging" class="text-decoration-none">1. Insecure Logging</a></li>
-            <li class="list-group-item"><a href="#hardcoded-credentials" class="text-decoration-none">2. Hardcoded Credentials</a></li>
-            <li class="list-group-item"><a href="#firebase-database" class="text-decoration-none">3. Firebase Database</a></li>
-            <li class="list-group-item"><a href="#insecure-shared-preferences" class="text-decoration-none">4. Insecure Shared Preferences</a></li>
-            <li class="list-group-item"><a href="#sql-injection" class="text-decoration-none">5. SQL Injection</a></li>
-            <li class="list-group-item"><a href="#pin-bypass" class="text-decoration-none">6. PIN Bypass</a></li>
-            <li class="list-group-item"><a href="#root-detection-bypass" class="text-decoration-none">7. Root Detection Bypass</a></li>
-            <li class="list-group-item"><a href="#secure-flag-bypass" class="text-decoration-none">8. Secure Flag Bypass</a></li>
-            <li class="list-group-item"><a href="#deep-link-exploitation" class="text-decoration-none">9. Deep Link Exploitation</a></li>
-            <li class="list-group-item"><a href="#insecure-broadcast-receiver" class="text-decoration-none">10. Insecure Broadcast Receiver</a></li>
-            <li class="list-group-item"><a href="#vulnerable-webview" class="text-decoration-none">11. Vulnerable WebView</a></li>
-            <li class="list-group-item"><a href="#certificate-pinning" class="text-decoration-none">12. Certificate Pinning</a></li>
-            <li class="list-group-item"><a href="#weak-cryptography" class="text-decoration-none">13. Weak Cryptography</a></li>
-            <li class="list-group-item"><a href="#insecure-service" class="text-decoration-none">14. Insecure Service</a></li>
-            <li class="list-group-item"><a href="#object-serialization" class="text-decoration-none">15. Object Serialization</a></li>
+      <h1 class="text-center">Android pentesting challenges on Allsafe</h1>
+      <ul class="list-group mb-5">
+        <li class="list-group-item">
+          <a href="#insecure-logging" class="text-decoration-none"
+            >1. Insecure Logging</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#hardcoded-credentials" class="text-decoration-none"
+            >2. Hardcoded Credentials</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#firebase-database" class="text-decoration-none"
+            >3. Firebase Database</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#insecure-shared-preferences" class="text-decoration-none"
+            >4. Insecure Shared Preferences</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#sql-injection" class="text-decoration-none"
+            >5. SQL Injection</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#pin-bypass" class="text-decoration-none">6. PIN Bypass</a>
+        </li>
+        <li class="list-group-item">
+          <a href="#root-detection-bypass" class="text-decoration-none"
+            >7. Root Detection Bypass</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#secure-flag-bypass" class="text-decoration-none"
+            >8. Secure Flag Bypass</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#deep-link-exploitation" class="text-decoration-none"
+            >9. Deep Link Exploitation</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#insecure-broadcast-receiver" class="text-decoration-none"
+            >10. Insecure Broadcast Receiver</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#vulnerable-webview" class="text-decoration-none"
+            >11. Vulnerable WebView</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#certificate-pinning" class="text-decoration-none"
+            >12. Certificate Pinning</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#weak-cryptography" class="text-decoration-none"
+            >13. Weak Cryptography</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#insecure-service" class="text-decoration-none"
+            >14. Insecure Service</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#object-serialization" class="text-decoration-none"
+            >15. Object Serialization</a
+          >
+        </li>
+      </ul>
+
+      <section id="intro">
+        <h2>Introduction</h2>
+        <p>Firstly, analyze this app with MobSF.</p>
+        <img src="./images/mob.png" alt="Mobile Security Framework" />
+      </section>
+
+      <section id="insecure-logging" class="mb-5">
+        <h2>Insecure Logging Challenge</h2>
+        <p>
+          Developers often utilize logging to track their code execution and
+          troubleshoot errors. However, there are instances when sensitive
+          information, such as login credentials or authentication tokens, may
+          inadvertently be recorded in the logs.
+        </p>
+      </section>
+
+      <section class="mb-5">
+        <h2>Testing Process</h2>
+        <ol>
+          <li>
+            <strong>Connect to the Device:</strong> Ensure your device is
+            connected via ADB (Android Debug Bridge).
+          </li>
+          <li>
+            <strong>Monitor Logs:</strong> Use the <code>logcat</code> command
+            to observe the device logs for any sensitive data being logged.
+            <pre><code>adb logcat</code></pre>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-5">
+        <h2>Identifying Sensitive Data</h2>
+        <p>
+          Look for entries in the logs that may contain sensitive information,
+          such as:
+        </p>
+        <ul>
+          <li>Login credentials</li>
+          <li>Authentication tokens</li>
+          <li>Personal user data</li>
         </ul>
+      </section>
 
-        <section id="intro">
-            <h2>Introduction</h2>
-            <p>Firstly, analyze this app with MobSF.</p>
-            <img src="./images/mob.png" alt="Mobile Security Framework" />
-        </section>
-        
+      <section class="mb-5">
+        <h2>Using Logcat Effectively</h2>
+        <p>
+          This is the command that can efficiently utilize
+          <code>logcat</code> and the process:
+        </p>
+        <code
+          >adb shell logcat --pid=$(adb shell pidof -s
+          infosecadventures.allsafe)</code
+        >
+        <div class="text-center mb-4">
+          <img
+            src="./images/allsafecode.png"
+            alt="Allsafe Code Output"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Output of the command for Allsafe challenge.</p>
+        </div>
 
-        <section id="insecure-logging" class="mb-5">
-            <h2>Insecure Logging Challenge</h2>
-            <p>
-                Developers often utilize logging to track their code execution and troubleshoot errors. However, there are instances when sensitive information, such as login credentials or authentication tokens, may inadvertently be recorded in the logs.
-            </p>
-        </section>
-        
-        <section class="mb-5">
-            <h2>Testing Process</h2>
-            <ol>
-                <li>
-                    <strong>Connect to the Device:</strong> Ensure your device is connected via ADB (Android Debug Bridge).
-                </li>
-                <li>
-                    <strong>Monitor Logs:</strong> Use the <code>logcat</code> command to observe the device logs for any sensitive data being logged.
-                    <pre><code>adb logcat</code></pre>
-                </li>
-            </ol>
-        </section>
+        <div class="text-center mb-4">
+          <img
+            src="./images/allsafe.png"
+            alt="Allsafe Application"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">
+            Visual representation of the Allsafe application.
+          </p>
+        </div>
 
-        <section class="mb-5">
-            <h2>Identifying Sensitive Data</h2>
-            <p>
-                Look for entries in the logs that may contain sensitive information, such as:
-            </p>
-            <ul>
-                <li>Login credentials</li>
-                <li>Authentication tokens</li>
-                <li>Personal user data</li>
-            </ul>
-        </section>
-        
-        <section class="mb-5">
-            <h2>Using Logcat Effectively</h2>
-            <p>
-                This is the command that can efficiently utilize <code>logcat</code> and the process:
-            </p>
-            <code>adb shell logcat --pid=$(adb shell pidof -s infosecadventures.allsafe)</code>
-            <div class="text-center mb-4">
-                <img src="./images/allsafecode.png" alt="Allsafe Code Output" class="img-fluid mb-2" />
-                <p class="caption">Output of the command for Allsafe challenge.</p>
-            </div>
-            
-            <div class="text-center mb-4">
-                <img src="./images/allsafe.png" alt="Allsafe Application" class="img-fluid mb-2" />
-                <p class="caption">Visual representation of the Allsafe application.</p>
-            </div>
-            
-            <p>
-                Here’s another example from the Diva challenges:
-            </p>
-             <code>adb logcat --pid=$(adb shell pidof -s jakhar.aseem.diva)</code>
-            <div class="text-center mb-4">
-                <img src="./images/logcatdiva.png" alt="Diva Logcat Output" class="img-fluid mb-2" />
-                <p class="caption">Output of the logcat command for Diva challenge.</p>
-            </div>
-        </section>
-        
-        <section class="mb-5">
-            <h2>Conclusion</h2>
-            <p>
-                Insecure logging can pose a significant security risk. Developers should be cautious about what data is logged and ensure that sensitive information is adequately protected or omitted from logs.
-            </p>
-        </section>
-        <section id="hardcoded-credentials" class="mb-5">
-            <h2>Hardcoded Credentials Challenge</h2>
-            <p>
-                In this challenge, you will discover credentials located in different parts of the application.
-            </p>
-            
-            <h3>First Credential Location</h3>
-            <p>
-                The first credential can be found in the following location:
-            </p>
-            <div class="text-center mb-4">
-                <img src="./images/hardcrad1.png" alt="Hardcoded Credential 1" class="img-fluid mb-2" />
-                <p class="caption">Location of the first hardcoded credential.</p>
-            </div>
-            
-            <h3>Second Credential Location</h3>
-            <p>
-                The second credential requires more in-depth tracing of the code.
-            </p>
-            <div class="text-center mb-4">
-                <img src="./images/hardcrad2.png" alt="Hardcoded Credential 2" class="img-fluid mb-2" />
-                <p class="caption">Location of the second hardcoded credential.</p>
-            </div>
-        
-            <h3>Finding the `dev_env` String</h3>
-            <p>
-                To find the `dev_env` string, navigate to <code>/Resources/resources.arsc/res/values/strings.xml</code> and search for it.
-            </p>
-            <div class="text-center mb-4">
-                <img src="./images/hardcra3.png" alt="Finding dev_env String" class="img-fluid mb-2" />
-                <p class="caption">Searching for the dev_env string in strings.xml.</p>
-            </div>
-        </section>
-        
-        
-        <footer class="text-center">
-            <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>
-        </footer>
+        <p>Here’s another example from the Diva challenges:</p>
+        <code>adb logcat --pid=$(adb shell pidof -s jakhar.aseem.diva)</code>
+        <div class="text-center mb-4">
+          <img
+            src="./images/logcatdiva.png"
+            alt="Diva Logcat Output"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">
+            Output of the logcat command for Diva challenge.
+          </p>
+        </div>
+      </section>
+
+      <section class="mb-5">
+        <h2>Conclusion</h2>
+        <p>
+          Insecure logging can pose a significant security risk. Developers
+          should be cautious about what data is logged and ensure that sensitive
+          information is adequately protected or omitted from logs.
+        </p>
+      </section>
+      <section id="hardcoded-credentials" class="mb-5">
+        <h2>Hardcoded Credentials Challenge</h2>
+        <p>
+          In this challenge, you will discover credentials located in different
+          parts of the application.
+        </p>
+
+        <h3>First Credential Location</h3>
+        <p>The first credential can be found in the following location:</p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/hardcrad1.png"
+            alt="Hardcoded Credential 1"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Location of the first hardcoded credential.</p>
+        </div>
+
+        <h3>Second Credential Location</h3>
+        <p>The second credential requires more in-depth tracing of the code.</p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/hardcrad2.png"
+            alt="Hardcoded Credential 2"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Location of the second hardcoded credential.</p>
+        </div>
+
+        <h3>Finding the `dev_env` String</h3>
+        <p>
+          To find the `dev_env` string, navigate to
+          <code>/Resources/resources.arsc/res/values/strings.xml</code> and
+          search for it.
+        </p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/hardcra3.png"
+            alt="Finding dev_env String"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">
+            Searching for the dev_env string in strings.xml.
+          </p>
+        </div>
+      </section>
+
+      <footer class="text-center">
+        <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>
+      </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>

@@ -301,47 +301,99 @@
       <section id="firebase-database" class="mb-5">
         <h2>Firebase Database Analysis</h2>
         <p>
-            Firebase is a cloud-based, real-time NoSQL database that can be integrated into both Android and iOS applications. To begin testing, the first step is to identify the Firebase URL. In Jadx, navigate to the path 
-            <code>/Resources/resources.arsc/res/values/strings.xml</code> and search for the Firebase entry to locate the URL.
+          Firebase is a cloud-based, real-time NoSQL database that can be
+          integrated into both Android and iOS applications. To begin testing,
+          the first step is to identify the Firebase URL. In Jadx, navigate to
+          the path
+          <code>/Resources/resources.arsc/res/values/strings.xml</code> and
+          search for the Firebase entry to locate the URL.
         </p>
         <div class="text-center mb-4">
-            <img src="./images/firebase-database.png" alt="Firebase Database Overview" class="img-fluid mb-2" />
-            <p class="caption">Overview of Firebase Database integration.</p>
+          <img
+            src="./images/firebase-database.png"
+            alt="Firebase Database Overview"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Overview of Firebase Database integration.</p>
         </div>
-        
+
         <p>
-            Next, open your browser and attempt to access the 
-            <code>/.json</code> endpoint. If you receive a "Permission Denied" response, this indicates that the database is securely configured. Conversely, if you receive JSON data or a <code>null</code> response, it implies that you have at least read permissions.
+          Next, open your browser and attempt to access the
+          <code>/.json</code> endpoint. If you receive a "Permission Denied"
+          response, this indicates that the database is securely configured.
+          Conversely, if you receive JSON data or a <code>null</code> response,
+          it implies that you have at least read permissions.
         </p>
         <div class="text-center mb-4">
-            <img src="./images/flagfirebse.png" alt="Firebase JSON Access" class="img-fluid mb-2" />
-            <p class="caption">Attempting to access the Firebase JSON endpoint.</p>
+          <img
+            src="./images/flagfirebse.png"
+            alt="Firebase JSON Access"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">
+            Attempting to access the Firebase JSON endpoint.
+          </p>
+        </div>
+      </section>
+
+      <section id="insecure-shared-preferences" class="mb-5">
+        <h2>SharedPreferences Vulnerability</h2>
+        <p>
+          Data stored in a <code>SharedPreferences</code> object is saved as an
+          XML file within the app's data directory. In this challenge, the code
+          shows that <code>getSharedPreferences("user", 0)</code> creates a
+          <code>SharedPreferences</code> object named
+          <code>user.xml</code> using the default mode set to
+          <code>MODE_PRIVATE</code>. This file contains the plaintext username
+          and password of the registered user.
+        </p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/shredpref.png"
+            alt="SharedPreferences Storage"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Storage of sensitive data in SharedPreferences.</p>
+        </div>
+
+        <p>
+          This approach represents a poor security practice. While non-rooted
+          devices typically prevent other applications from accessing that XML
+          file, the same does not hold true for rooted Android devices. You can
+          verify the existence of an Insecure Data Storage vulnerability by
+          navigating to
+          <code>/data/data/infosecadventures.allsafe/shared_prefs/</code> and
+          opening the <code>user.xml</code> file.
+        </p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/saredprefflag.png"
+            alt="Insecure Data Storage"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Verifying Insecure Data Storage vulnerability.</p>
+        </div>
+      </section>
+      <section id="sql-injection" class="mb-5">
+        <h2>SQL Injection Vulnerability</h2>
+        <p>
+            Upon further investigation, you will notice that both the username and password are incorporated into a raw SQL query that lacks adequate sanitization.
+        </p>
+        <div class="text-center mb-4">
+            <img src="./images/sql.png" alt="SQL Query Structure" class="img-fluid mb-2" />
+            <p class="caption">Illustration of SQL Query Structure.</p>
+        </div>
+        <p>
+            This challenge represents a basic SQL Injection scenario. The goal is to exploit a SQL Injection vulnerability in the login function, which can be accomplished using the classic payload 
+            <code> OR 1=1 --</code> along with a dummy password.
+        </p>
+        <div class="text-center mb-4">
+            <img src="./images/sqlflag.png" alt="SQL Injection Flag" class="img-fluid mb-2" />
+            <p class="caption">Flag for successful SQL Injection exploitation.</p>
         </div>
     </section>
     
-    <section id="insecure-shared-preferences" class="mb-5">
-        <h2>SharedPreferences Vulnerability</h2>
-        <p>
-            Data stored in a <code>SharedPreferences</code> object is saved as an XML file within the app's data directory. In this challenge, the code shows that 
-            <code>getSharedPreferences("user", 0)</code> creates a <code>SharedPreferences</code> object named 
-            <code>user.xml</code> using the default mode set to <code>MODE_PRIVATE</code>. This file contains the plaintext username and password of the registered user.
-        </p>
-        <div class="text-center mb-4">
-            <img src="./images/shredpref.png" alt="SharedPreferences Storage" class="img-fluid mb-2" />
-            <p class="caption">Storage of sensitive data in SharedPreferences.</p>
-        </div>
-        
-        <p>
-            This approach represents a poor security practice. While non-rooted devices typically prevent other applications from accessing that XML file, the same does not hold true for rooted Android devices. You can verify the existence of an Insecure Data Storage vulnerability by navigating to 
-            <code>/data/data/infosecadventures.allsafe/shared_prefs/</code> and opening the 
-            <code>user.xml</code> file.
-        </p>
-        <div class="text-center mb-4">
-            <img src="./images/saredprefflag.png" alt="Insecure Data Storage" class="img-fluid mb-2" />
-            <p class="caption">Verifying Insecure Data Storage vulnerability.</p>
-        </div>
-    </section>
-          <footer class="text-center">
+      <footer class="text-center">
         <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>
       </footer>
     </div>

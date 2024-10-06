@@ -377,22 +377,69 @@
       <section id="sql-injection" class="mb-5">
         <h2>SQL Injection Vulnerability</h2>
         <p>
-            Upon further investigation, you will notice that both the username and password are incorporated into a raw SQL query that lacks adequate sanitization.
+          Upon further investigation, you will notice that both the username and
+          password are incorporated into a raw SQL query that lacks adequate
+          sanitization.
         </p>
         <div class="text-center mb-4">
-            <img src="./images/sql.png" alt="SQL Query Structure" class="img-fluid mb-2" />
-            <p class="caption">Illustration of SQL Query Structure.</p>
+          <img
+            src="./images/sql.png"
+            alt="SQL Query Structure"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Illustration of SQL Query Structure.</p>
         </div>
         <p>
-            This challenge represents a basic SQL Injection scenario. The goal is to exploit a SQL Injection vulnerability in the login function, which can be accomplished using the classic payload 
-            <code> OR 1=1 --</code> along with a dummy password.
+          This challenge represents a basic SQL Injection scenario. The goal is
+          to exploit a SQL Injection vulnerability in the login function, which
+          can be accomplished using the classic payload
+          <code> OR 1=1 --</code> along with a dummy password.
         </p>
         <div class="text-center mb-4">
-            <img src="./images/sqlflag.png" alt="SQL Injection Flag" class="img-fluid mb-2" />
-            <p class="caption">Flag for successful SQL Injection exploitation.</p>
+          <img
+            src="./images/sqlflag.png"
+            alt="SQL Injection Flag"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Flag for successful SQL Injection exploitation.</p>
+        </div>
+      </section>
+      <section id="pin-bypass" class="mb-5">
+        <h2>PIN Bypass Challenge</h2>
+        <p>
+            In this challenge, there is a hardcoded <code>Base64</code> encoded PIN embedded in the app that needs to be entered in the text view to complete the challenge. The goal is to utilize Frida to override the <code>checkPin</code> function, forcing it to return true for any PIN. However, since the PIN is a simple 4-digit number, we can also write a Frida script to brute-force the correct PIN. By examining the source code, you'll notice that the function responsible for validating the PIN is called <code>checkPin</code>, which returns true if the entered PIN matches the hardcoded value.
+        </p>
+        <div class="text-center mb-4">
+            <img src="./images/checkpin.png" alt="Check PIN Function" class="img-fluid mb-2" />
+            <p class="caption">Illustration of the checkPin function.</p>
+        </div>
+        <p>
+            The approach here involves creating a straightforward for loop that invokes the <code>checkPin</code> method with every possible PIN value (from 0000 to 9999) as a string parameter. When the correct PIN is passed to the function, it will return true, signaling that the correct value has been found.
+        </p>
+        <code>
+            Java.perform(function() {
+                var pinBypassClass = Java.use("infosecadventures.allsafe.challenges.PinBypass");
+                pinBypassClass.checkPin.implementation = function(inputPin) {
+                    for (var pinAttempt = 0; pinAttempt <= 9999; pinAttempt++) {
+                        var isPinValid = this.checkPin(String(pinAttempt).padStart(4, '0'));
+                        if (isPinValid) {
+                            console.log("[+] Valid PIN found: " + pinAttempt);
+                            break;
+                        }
+                    }
+                    return true;
+                }
+            });
+        </code>
+        <p>Next, spawn the app using Frida and inject the script with the following command:</p>
+        <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code>
+        <div class="text-center mb-4">
+            <img src="./images/pinflag.png" alt="PIN Bypass Flag" class="img-fluid mb-2" />
+            <p class="caption">Flag for successful PIN bypass.</p>
         </div>
     </section>
     
+
       <footer class="text-center">
         <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>
       </footer>

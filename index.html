@@ -45,7 +45,7 @@
         font-size: 0.85rem;
         color: #6c757d;
       }
-      pre {
+       pre {
         background-color: #f5f5f5; /* Light grey background */
         border-left: 3px solid #007bff; /* Blue left border */
         padding: 15px; /* Padding around the text */
@@ -53,11 +53,6 @@
         overflow: auto; /* Allows scrolling */
         white-space: pre-wrap; /* Wraps long lines */
         font-family: 'Courier New', Courier, monospace; /* Monospace font */
-    }
-
-    code {
-        color: #333; /* Dark grey text */
-        font-size: 14px; /* Font size */
     }
       #intro {
         padding: 20px;
@@ -194,9 +189,9 @@
             connected via ADB (Android Debug Bridge).
           </li>
           <li>
-            <strong>Monitor Logs:</strong> Use the <pre><code>logcat</code></pre> command
+            <strong>Monitor Logs:</strong> Use the <code>logcat</code> command
             to observe the device logs for any sensitive data being logged.
-             <pre><code>adb logcat</code></pre></pre>
+            <pre><code>adb logcat</code></pre>
           </li>
         </ol>
       </section>
@@ -218,7 +213,7 @@
         <h2>Using Logcat Effectively</h2>
         <p>
           This is the command that can efficiently utilize
-          <pre><code>logcat</code></pre> and the process:
+          <code>logcat</code> and the process:
         </p>
         <code
           >adb shell logcat --pid=$(adb shell pidof -s
@@ -245,7 +240,7 @@
         </div>
 
         <p>Here’s another example from the Diva challenges:</p>
-        <pre><code>adb logcat --pid=$(adb shell pidof -s jakhar.aseem.diva)</code></pre>
+        <code>adb logcat --pid=$(adb shell pidof -s jakhar.aseem.diva)</code>
         <div class="text-center mb-4">
           <img
             src="./images/logcatdiva.png"
@@ -295,10 +290,10 @@
           <p class="caption">Location of the second hardcoded credential.</p>
         </div>
 
-        <h3>Finding the <pre><code>dev_env</code></pre> String</h3>
+        <h3>Finding the <code>dev_env</code> String</h3>
         <p>
-          To find the <pre><code>dev_env</code></pre> string, navigate to
-          <pre><code>/Resources/resources.arsc/res/values/strings.xml</code></pre> and
+          To find the <code>dev_env</code> string, navigate to
+          <code>/Resources/resources.arsc/res/values/strings.xml</code> and
           search for it.
         </p>
         <div class="text-center mb-4">
@@ -319,7 +314,7 @@
           integrated into both Android and iOS applications. To begin testing,
           the first step is to identify the Firebase URL. In Jadx, navigate to
           the path
-          <pre><code>/Resources/resources.arsc/res/values/strings.xml</code></pre> and
+          <code>/Resources/resources.arsc/res/values/strings.xml</code> and
           search for the Firebase entry to locate the URL.
         </p>
         <div class="text-center mb-4">
@@ -333,9 +328,9 @@
 
         <p>
           Next, open your browser and attempt to access the
-          <pre><code>/.json</code></pre> endpoint. If you receive a "Permission Denied"
+          <code>/.json</code> endpoint. If you receive a "Permission Denied"
           response, this indicates that the database is securely configured.
-          Conversely, if you receive JSON data or a <pre><code>null</code></pre> response,
+          Conversely, if you receive JSON data or a <code>null</code> response,
           it implies that you have at least read permissions.
         </p>
         <div class="text-center mb-4">
@@ -353,12 +348,12 @@
       <section id="insecure-shared-preferences" class="mb-5">
         <h2>SharedPreferences Vulnerability</h2>
         <p>
-          Data stored in a <pre><code>SharedPreferences</code></pre> object is saved as an
+          Data stored in a <code>SharedPreferences</code> object is saved as an
           XML file within the app's data directory. In this challenge, the code
-          shows that <pre><code>getSharedPreferences("user", 0)</code></pre> creates a
-          <pre><code>SharedPreferences</code></pre> object named
-          <pre><code>user.xml</code></pre> using the default mode set to
-          <pre><code>MODE_PRIVATE</code></pre>. This file contains the plaintext username
+          shows that <code>getSharedPreferences("user", 0)</code> creates a
+          <code>SharedPreferences</code> object named
+          <code>user.xml</code> using the default mode set to
+          <code>MODE_PRIVATE</code>. This file contains the plaintext username
           and password of the registered user.
         </p>
         <div class="text-center mb-4">
@@ -376,8 +371,8 @@
           file, the same does not hold true for rooted Android devices. You can
           verify the existence of an Insecure Data Storage vulnerability by
           navigating to
-          <pre><code>/data/data/infosecadventures.allsafe/shared_prefs/</code></pre> and
-          opening the <pre><code>user.xml</code></pre> file.
+          <code>/data/data/infosecadventures.allsafe/shared_prefs/</code> and
+          opening the <code>user.xml</code> file.
         </p>
         <div class="text-center mb-4">
           <img
@@ -407,7 +402,7 @@
           This challenge represents a basic SQL Injection scenario. The goal is
           to exploit a SQL Injection vulnerability in the login function, which
           can be accomplished using the classic payload
-          <pre><code> OR 1=1 --</code></pre> along with a dummy password.
+          <code> OR 1=1 --</code> along with a dummy password.
         </p>
         <div class="text-center mb-4">
           <img
@@ -421,17 +416,17 @@
       <section id="pin-bypass" class="mb-5">
         <h2>PIN Bypass Challenge</h2>
         <p>
-            In this challenge, there is a hardcoded <pre><code>Base64</code></pre> encoded PIN embedded in the app that needs to be entered in the text view to complete the challenge. The goal is to utilize Frida to override the <pre><code>checkPin</code></pre> function, forcing it to return true for any PIN. However, since the PIN is a simple 4-digit number, we can also write a Frida script to brute-force the correct PIN. By examining the source code, you'll notice that the function responsible for validating the PIN is called <pre><code>checkPin</code></pre>, which returns true if the entered PIN matches the hardcoded value.
+            In this challenge, there is a hardcoded <code>Base64</code> encoded PIN embedded in the app that needs to be entered in the text view to complete the challenge. The goal is to utilize Frida to override the <code>checkPin</code> function, forcing it to return true for any PIN. However, since the PIN is a simple 4-digit number, we can also write a Frida script to brute-force the correct PIN. By examining the source code, you'll notice that the function responsible for validating the PIN is called <code>checkPin</code>, which returns true if the entered PIN matches the hardcoded value.
         </p>
         <div class="text-center mb-4">
             <img src="./images/checkpin.png" alt="Check PIN Function" class="img-fluid mb-2" />
             <p class="caption">Illustration of the checkPin function.</p>
         </div>
         <p>
-            The approach here involves creating a straightforward for loop that invokes the <pre><code>checkPin</code></pre> method with every possible PIN value (from 0000 to 9999) as a string parameter. When the correct PIN is passed to the function, it will return true, signaling that the correct value has been found.
+            The approach here involves creating a straightforward for loop that invokes the <code>checkPin</code> method with every possible PIN value (from 0000 to 9999) as a string parameter. When the correct PIN is passed to the function, it will return true, signaling that the correct value has been found.
         </p>
-         
-            <pre><code>
+        <pre>
+            <code>
     Java.perform(function() {
         var pinBypassClass = Java.use("infosecadventures.allsafe.challenges.PinBypass");
         pinBypassClass.checkPin.implementation = function(inputPin) {
@@ -445,10 +440,10 @@
             return true;
         }
     });
-            </code></pre>
+            </code>
         </pre>
         <p>Next, spawn the app using Frida and inject the script with the following command:</p>
-         <pre><code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code></pre></pre>
+       <pre> <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code></pre>
         <div class="text-center mb-4">
             <img src="./images/pinflag.png" alt="PIN Bypass Flag" class="img-fluid mb-2" />
             <p class="caption">Flag for successful PIN bypass.</p>

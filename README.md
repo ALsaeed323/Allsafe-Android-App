@@ -40,6 +40,7 @@ The challenges in this repository involve using a variety of tools to perform st
   - **Modular Design**: Extend the framework with custom modules for specific testing needs.
 - **Mobile Security Framework (MobSF)**: An open-source security analysis tool for performing static and dynamic analysis of Android APKs.
 - **Drozer**: A comprehensive security testing framework that allows interaction with Android apps, particularly for assessing IPC (Inter-Process Communication) mechanisms.
+- **IDA Freeware**: A free version of the Interactive Disassembler, used for reverse engineering and disassembling binaries. It helps in static analysis, giving insights into the application’s low-level code structure, making it easier to understand the behavior of an application.
 
 These tools are essential for performing in-depth analysis and crafting efficient exploits in Android applications. Mastering these tools will significantly improve your ability to identify and exploit vulnerabilities in mobile apps.
 

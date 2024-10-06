@@ -154,7 +154,10 @@
 
       <section id="intro">
         <h2>Introduction</h2>
-        <p>Firstly, analyze this app with MobSF to conduct an efficient static analysis and understand the application flow.</p>
+        <p>
+          Firstly, analyze this app with MobSF to conduct an efficient static
+          analysis and understand the application flow.
+        </p>
 
         <img src="./images/mob.png" alt="Mobile Security Framework" />
       </section>
@@ -294,6 +297,23 @@
             Searching for the dev_env string in strings.xml.
           </p>
         </div>
+      </section>
+      <section id="firebase-database">
+        <p>
+          Firebase is a cloud-based, real-time NoSQL database that can be
+          integrated into both Android and iOS applications. To begin testing,
+          the first step is to identify the Firebase URL. In Jadx, navigate to
+          the path `/Resources/resources.arsc/res/values/strings.xml`, and
+          search for the Firebase entry to locate the URL.
+        </p>
+        <img src="./images/firebase-database.png" alt="" />
+        <p>
+          Next, open your browser and try accessing the `/.json` endpoint. If
+          you receive a "Permission Denied" response, it indicates that the
+          database is securely configured. However, if you receive JSON data or
+          even a `null` response, it means you have at least read permissions.
+        </p>
+        <img src="./images/flagfirebse.png" alt="">
       </section>
 
       <footer class="text-center">

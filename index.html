@@ -416,23 +416,25 @@
         <p>
             The approach here involves creating a straightforward for loop that invokes the <code>checkPin</code> method with every possible PIN value (from 0000 to 9999) as a string parameter. When the correct PIN is passed to the function, it will return true, signaling that the correct value has been found.
         </p>
-        <code>
-            Java.perform(function() {
-                var pinBypassClass = Java.use("infosecadventures.allsafe.challenges.PinBypass");
-                pinBypassClass.checkPin.implementation = function(inputPin) {
-                    for (var pinAttempt = 0; pinAttempt <= 9999; pinAttempt++) {
-                        var isPinValid = this.checkPin(String(pinAttempt).padStart(4, '0'));
-                        if (isPinValid) {
-                            console.log("[+] Valid PIN found: " + pinAttempt);
-                            break;
-                        }
-                    }
-                    return true;
+        <pre>
+            <code>
+    Java.perform(function() {
+        var pinBypassClass = Java.use("infosecadventures.allsafe.challenges.PinBypass");
+        pinBypassClass.checkPin.implementation = function(inputPin) {
+            for (var pinAttempt = 0; pinAttempt <= 9999; pinAttempt++) {
+                var isPinValid = this.checkPin(String(pinAttempt).padStart(4, '0'));
+                if (isPinValid) {
+                    console.log("[+] Valid PIN found: " + pinAttempt);
+                    break;
                 }
-            });
-        </code>
+            }
+            return true;
+        }
+    });
+            </code>
+        </pre>
         <p>Next, spawn the app using Frida and inject the script with the following command:</p>
-        <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code>
+       <pre> <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code></pre>
         <div class="text-center mb-4">
             <img src="./images/pinflag.png" alt="PIN Bypass Flag" class="img-fluid mb-2" />
             <p class="caption">Flag for successful PIN bypass.</p>

@@ -1,467 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        background-color: #f8f9fa;
-        font-family: "Arial", sans-serif;
-      }
-      h1 {
-        color: #007bff;
-        margin-bottom: 30px;
-      }
-      h2 {
-        color: #343a40;
-        margin-top: 30px;
-        border-bottom: 2px solid #007bff;
-        padding-bottom: 10px;
-      }
-      p {
-        line-height: 1.6;
-      }
-      ol {
-        margin-left: 20px;
-      }
-      .list-group-item {
-        transition: background-color 0.3s;
-      }
-      .list-group-item:hover {
-        background-color: #e9ecef;
-        cursor: pointer;
-      }
-      footer {
-        margin-top: 40px;
-        padding: 20px 0;
-        background-color: #007bff;
-        color: #ffffff;
-      }
-      .caption {
-        font-size: 0.85rem;
-        color: #6c757d;
-      }
-      pre {
-        background-color: #f5f5f5; /* Light grey background */
-        border-left: 3px solid #007bff; /* Blue left border */
-        padding: 15px; /* Padding around the text */
-        border-radius: 5px; /* Rounded corners */
-        overflow: auto; /* Allows scrolling */
-        white-space: pre-wrap; /* Wraps long lines */
-        font-family: "Courier New", Courier, monospace; /* Monospace font */
-      }
-      #intro {
-        padding: 20px;
-        background-color: #f9f9f9; /* Light background for contrast */
-        border-radius: 8px; /* Rounded corners */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-      }
 
-      #intro h2 {
-        font-size: 24px;
-        color: #333; /* Darker color for the heading */
-        margin-bottom: 10px; /* Space below the heading */
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: "Arial", sans-serif;
+    }
 
-      #intro p {
-        font-size: 16px;
-        color: #555; /* Slightly lighter color for the text */
-        line-height: 1.5; /* Improved line spacing */
-      }
+    h1 {
+      color: #007bff;
+      margin-bottom: 30px;
+    }
 
-      #intro img {
-        max-width: 100%; /* Responsive image */
-        height: auto; /* Maintain aspect ratio */
-        border-radius: 4px; /* Rounded corners for the image */
-        margin-top: 10px; /* Space above the image */
-      }
-    </style>
-    <title>Android Pentesting Challenges</title>
-  </head>
-  <body>
-    <div class="container my-5">
-      <h1 class="text-center">Android pentesting challenges on Allsafe</h1>
-      <ul class="list-group mb-5">
-        <li class="list-group-item">
-          <a href="#insecure-logging" class="text-decoration-none"
-            >1. Insecure Logging</a
-          >
+    h2 {
+      color: #343a40;
+      margin-top: 30px;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    ol {
+      margin-left: 20px;
+    }
+
+    .list-group-item {
+      transition: background-color 0.3s;
+    }
+
+    .list-group-item:hover {
+      background-color: #e9ecef;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px 0;
+      background-color: #007bff;
+      color: #ffffff;
+    }
+
+    .caption {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+
+    pre {
+      background-color: #f5f5f5;
+      /* Light grey background */
+      border-left: 3px solid #007bff;
+      /* Blue left border */
+      padding: 15px;
+      /* Padding around the text */
+      border-radius: 5px;
+      /* Rounded corners */
+      overflow: auto;
+      /* Allows scrolling */
+      white-space: pre-wrap;
+      /* Wraps long lines */
+      font-family: "Courier New", Courier, monospace;
+      /* Monospace font */
+    }
+
+    #intro {
+      padding: 20px;
+      background-color: #f9f9f9;
+      /* Light background for contrast */
+      border-radius: 8px;
+      /* Rounded corners */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      /* Subtle shadow */
+    }
+
+    #intro h2 {
+      font-size: 24px;
+      color: #333;
+      /* Darker color for the heading */
+      margin-bottom: 10px;
+      /* Space below the heading */
+    }
+
+    #intro p {
+      font-size: 16px;
+      color: #555;
+      /* Slightly lighter color for the text */
+      line-height: 1.5;
+      /* Improved line spacing */
+    }
+
+    #intro img {
+      max-width: 100%;
+      /* Responsive image */
+      height: auto;
+      /* Maintain aspect ratio */
+      border-radius: 4px;
+      /* Rounded corners for the image */
+      margin-top: 10px;
+      /* Space above the image */
+    }
+  </style>
+  <title>Android Pentesting Challenges</title>
+</head>
+
+<body>
+  <div class="container my-5">
+    <h1 class="text-center">Android pentesting challenges on Allsafe</h1>
+    <ul class="list-group mb-5">
+      <li class="list-group-item">
+        <a href="#insecure-logging" class="text-decoration-none">1. Insecure Logging</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#hardcoded-credentials" class="text-decoration-none">2. Hardcoded Credentials</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#firebase-database" class="text-decoration-none">3. Firebase Database Misconfigurations</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#insecure-shared-preferences" class="text-decoration-none">4. Insecure Shared Preferences</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#sql-injection" class="text-decoration-none">5. SQL Injection</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#pin-bypass" class="text-decoration-none">6. PIN Bypass</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#root-detection-bypass" class="text-decoration-none">7. Root Detection Bypass</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#secure-flag-bypass" class="text-decoration-none">8. Secure Flag Bypass</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#deep-link-exploitation" class="text-decoration-none">9. Deep Link Exploitation</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#insecure-broadcast-receiver" class="text-decoration-none">10. Insecure Broadcast Receiver</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#vulnerable-webview" class="text-decoration-none">11. Vulnerable WebView</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#certificate-pinning" class="text-decoration-none">12. Certificate Pinning Bypass</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#weak-cryptography" class="text-decoration-none">13. Weak Cryptography</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#insecure-service" class="text-decoration-none">14. Insecure Service</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#object-serialization" class="text-decoration-none">15. Object Serialization Vulnerabilities</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#insecure-providers" class="text-decoration-none">16. Insecure Providers</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#arbitrary-code-execution" class="text-decoration-none">17. Arbitrary Code Execution</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#native-library-vulnerabilities" class="text-decoration-none">18. Native Library Vulnerabilities</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#smali-patch-exploitation" class="text-decoration-none">19. Smali Patch Exploitation</a>
+      </li>
+    </ul>
+
+    <section id="intro">
+      <h2>Introduction</h2>
+      <p>
+        Firstly, analyze this app with MobSF to conduct an efficient static
+        analysis and understand the application flow.
+      </p>
+
+      <img src="./images/mob.png" alt="Mobile Security Framework" />
+    </section>
+
+    <section id="insecure-logging" class="mb-5">
+      <h2>Insecure Logging Challenge</h2>
+      <p>
+        Developers often utilize logging to track their code execution and
+        troubleshoot errors. However, there are instances when sensitive
+        information, such as login credentials or authentication tokens, may
+        inadvertently be recorded in the logs.
+      </p>
+    </section>
+
+    <section class="mb-5">
+      <h2>Testing Process</h2>
+      <ol>
+        <li>
+          <strong>Connect to the Device:</strong> Ensure your device is
+          connected via ADB (Android Debug Bridge).
         </li>
-        <li class="list-group-item">
-          <a href="#hardcoded-credentials" class="text-decoration-none"
-            >2. Hardcoded Credentials</a
-          >
+        <li>
+          <strong>Monitor Logs:</strong> Use the <code>logcat</code> command
+          to observe the device logs for any sensitive data being logged.
+          <pre><code>adb logcat</code></pre>
         </li>
-        <li class="list-group-item">
-          <a href="#firebase-database" class="text-decoration-none"
-            >3. Firebase Database Misconfigurations</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#insecure-shared-preferences" class="text-decoration-none"
-            >4. Insecure Shared Preferences</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#sql-injection" class="text-decoration-none"
-            >5. SQL Injection</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#pin-bypass" class="text-decoration-none">6. PIN Bypass</a>
-        </li>
-        <li class="list-group-item">
-          <a href="#root-detection-bypass" class="text-decoration-none"
-            >7. Root Detection Bypass</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#secure-flag-bypass" class="text-decoration-none"
-            >8. Secure Flag Bypass</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#deep-link-exploitation" class="text-decoration-none"
-            >9. Deep Link Exploitation</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#insecure-broadcast-receiver" class="text-decoration-none"
-            >10. Insecure Broadcast Receiver</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#vulnerable-webview" class="text-decoration-none"
-            >11. Vulnerable WebView</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#certificate-pinning" class="text-decoration-none"
-            >12. Certificate Pinning Bypass</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#weak-cryptography" class="text-decoration-none"
-            >13. Weak Cryptography</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#insecure-service" class="text-decoration-none"
-            >14. Insecure Service</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#object-serialization" class="text-decoration-none"
-            >15. Object Serialization Vulnerabilities</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#insecure-providers" class="text-decoration-none"
-            >16. Insecure Providers</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#arbitrary-code-execution" class="text-decoration-none"
-            >17. Arbitrary Code Execution</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#native-library-vulnerabilities" class="text-decoration-none"
-            >18. Native Library Vulnerabilities</a
-          >
-        </li>
-        <li class="list-group-item">
-          <a href="#smali-patch-exploitation" class="text-decoration-none"
-            >19. Smali Patch Exploitation</a
-          >
-        </li>
+      </ol>
+    </section>
+
+    <section class="mb-5">
+      <h2>Identifying Sensitive Data</h2>
+      <p>
+        Look for entries in the logs that may contain sensitive information,
+        such as:
+      </p>
+      <ul>
+        <li>Login credentials</li>
+        <li>Authentication tokens</li>
+        <li>Personal user data</li>
       </ul>
+    </section>
 
-      <section id="intro">
-        <h2>Introduction</h2>
-        <p>
-          Firstly, analyze this app with MobSF to conduct an efficient static
-          analysis and understand the application flow.
-        </p>
+    <section class="mb-5">
+      <h2>Using Logcat Effectively</h2>
+      <p>
+        This is the command that can efficiently utilize
+        <code>logcat</code> and the process:
+      </p>
+      <code>adb shell logcat --pid=$(adb shell pidof -s
+          infosecadventures.allsafe)</code>
+      <div class="text-center mb-4">
+        <img src="./images/allsafecode.png" alt="Allsafe Code Output" class="img-fluid mb-2" />
+        <p class="caption">Output of the command for Allsafe challenge.</p>
+      </div>
 
-        <img src="./images/mob.png" alt="Mobile Security Framework" />
-      </section>
+      <div class="text-center mb-4">
+        <img src="./images/allsafe.png" alt="Allsafe Application" class="img-fluid mb-2" />
+        <p class="caption">
+          Visual representation of the Allsafe application.
+        </p>
+      </div>
 
-      <section id="insecure-logging" class="mb-5">
-        <h2>Insecure Logging Challenge</h2>
-        <p>
-          Developers often utilize logging to track their code execution and
-          troubleshoot errors. However, there are instances when sensitive
-          information, such as login credentials or authentication tokens, may
-          inadvertently be recorded in the logs.
+      <p>Here’s another example from the Diva challenges:</p>
+      <code>adb logcat --pid=$(adb shell pidof -s jakhar.aseem.diva)</code>
+      <div class="text-center mb-4">
+        <img src="./images/logcatdiva.png" alt="Diva Logcat Output" class="img-fluid mb-2" />
+        <p class="caption">
+          Output of the logcat command for Diva challenge.
         </p>
-      </section>
+      </div>
+    </section>
 
-      <section class="mb-5">
-        <h2>Testing Process</h2>
-        <ol>
-          <li>
-            <strong>Connect to the Device:</strong> Ensure your device is
-            connected via ADB (Android Debug Bridge).
-          </li>
-          <li>
-            <strong>Monitor Logs:</strong> Use the <code>logcat</code> command
-            to observe the device logs for any sensitive data being logged.
-            <pre><code>adb logcat</code></pre>
-          </li>
-        </ol>
-      </section>
+    <section class="mb-5">
+      <h2>Conclusion</h2>
+      <p>
+        Insecure logging can pose a significant security risk. Developers
+        should be cautious about what data is logged and ensure that sensitive
+        information is adequately protected or omitted from logs.
+      </p>
+    </section>
+    <section id="hardcoded-credentials" class="mb-5">
+      <h2>Hardcoded Credentials Challenge</h2>
+      <p>
+        In this challenge, you will discover credentials located in different
+        parts of the application.
+      </p>
 
-      <section class="mb-5">
-        <h2>Identifying Sensitive Data</h2>
-        <p>
-          Look for entries in the logs that may contain sensitive information,
-          such as:
-        </p>
-        <ul>
-          <li>Login credentials</li>
-          <li>Authentication tokens</li>
-          <li>Personal user data</li>
-        </ul>
-      </section>
+      <h3>First Credential Location</h3>
+      <p>The first credential can be found in the following location:</p>
+      <div class="text-center mb-4">
+        <img src="./images/hardcrad1.png" alt="Hardcoded Credential 1" class="img-fluid mb-2" />
+        <p class="caption">Location of the first hardcoded credential.</p>
+      </div>
 
-      <section class="mb-5">
-        <h2>Using Logcat Effectively</h2>
-        <p>
-          This is the command that can efficiently utilize
-          <code>logcat</code> and the process:
-        </p>
-        <code
-          >adb shell logcat --pid=$(adb shell pidof -s
-          infosecadventures.allsafe)</code
-        >
-        <div class="text-center mb-4">
-          <img
-            src="./images/allsafecode.png"
-            alt="Allsafe Code Output"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Output of the command for Allsafe challenge.</p>
-        </div>
+      <h3>Second Credential Location</h3>
+      <p>The second credential requires more in-depth tracing of the code.</p>
+      <div class="text-center mb-4">
+        <img src="./images/hardcrad2.png" alt="Hardcoded Credential 2" class="img-fluid mb-2" />
+        <p class="caption">Location of the second hardcoded credential.</p>
+      </div>
 
-        <div class="text-center mb-4">
-          <img
-            src="./images/allsafe.png"
-            alt="Allsafe Application"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">
-            Visual representation of the Allsafe application.
-          </p>
-        </div>
+      <h3>Finding the <code>dev_env</code> String</h3>
+      <p>
+        To find the <code>dev_env</code> string, navigate to
+        <code>/Resources/resources.arsc/res/values/strings.xml</code> and
+        search for it.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/hardcra3.png" alt="Finding dev_env String" class="img-fluid mb-2" />
+        <p class="caption">
+          Searching for the dev_env string in strings.xml.
+        </p>
+      </div>
+    </section>
+    <section id="firebase-database" class="mb-5">
+      <h2>Firebase Database Analysis</h2>
+      <p>
+        Firebase is a cloud-based, real-time NoSQL database that can be
+        integrated into both Android and iOS applications. To begin testing,
+        the first step is to identify the Firebase URL. In Jadx, navigate to
+        the path
+        <code>/Resources/resources.arsc/res/values/strings.xml</code> and
+        search for the Firebase entry to locate the URL.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/firebase-database.png" alt="Firebase Database Overview" class="img-fluid mb-2" />
+        <p class="caption">Overview of Firebase Database integration.</p>
+      </div>
 
-        <p>Here’s another example from the Diva challenges:</p>
-        <code>adb logcat --pid=$(adb shell pidof -s jakhar.aseem.diva)</code>
-        <div class="text-center mb-4">
-          <img
-            src="./images/logcatdiva.png"
-            alt="Diva Logcat Output"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">
-            Output of the logcat command for Diva challenge.
-          </p>
-        </div>
-      </section>
+      <p>
+        Next, open your browser and attempt to access the
+        <code>/.json</code> endpoint. If you receive a "Permission Denied"
+        response, this indicates that the database is securely configured.
+        Conversely, if you receive JSON data or a <code>null</code> response,
+        it implies that you have at least read permissions.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/flagfirebse.png" alt="Firebase JSON Access" class="img-fluid mb-2" />
+        <p class="caption">
+          Attempting to access the Firebase JSON endpoint.
+        </p>
+      </div>
+    </section>
 
-      <section class="mb-5">
-        <h2>Conclusion</h2>
-        <p>
-          Insecure logging can pose a significant security risk. Developers
-          should be cautious about what data is logged and ensure that sensitive
-          information is adequately protected or omitted from logs.
-        </p>
-      </section>
-      <section id="hardcoded-credentials" class="mb-5">
-        <h2>Hardcoded Credentials Challenge</h2>
-        <p>
-          In this challenge, you will discover credentials located in different
-          parts of the application.
-        </p>
+    <section id="insecure-shared-preferences" class="mb-5">
+      <h2>SharedPreferences Vulnerability</h2>
+      <p>
+        Data stored in a <code>SharedPreferences</code> object is saved as an
+        XML file within the app's data directory. In this challenge, the code
+        shows that <code>getSharedPreferences("user", 0)</code> creates a
+        <code>SharedPreferences</code> object named
+        <code>user.xml</code> using the default mode set to
+        <code>MODE_PRIVATE</code>. This file contains the plaintext username
+        and password of the registered user.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/shredpref.png" alt="SharedPreferences Storage" class="img-fluid mb-2" />
+        <p class="caption">Storage of sensitive data in SharedPreferences.</p>
+      </div>
 
-        <h3>First Credential Location</h3>
-        <p>The first credential can be found in the following location:</p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/hardcrad1.png"
-            alt="Hardcoded Credential 1"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Location of the first hardcoded credential.</p>
-        </div>
-
-        <h3>Second Credential Location</h3>
-        <p>The second credential requires more in-depth tracing of the code.</p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/hardcrad2.png"
-            alt="Hardcoded Credential 2"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Location of the second hardcoded credential.</p>
-        </div>
-
-        <h3>Finding the <code>dev_env</code> String</h3>
-        <p>
-          To find the <code>dev_env</code> string, navigate to
-          <code>/Resources/resources.arsc/res/values/strings.xml</code> and
-          search for it.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/hardcra3.png"
-            alt="Finding dev_env String"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">
-            Searching for the dev_env string in strings.xml.
-          </p>
-        </div>
-      </section>
-      <section id="firebase-database" class="mb-5">
-        <h2>Firebase Database Analysis</h2>
-        <p>
-          Firebase is a cloud-based, real-time NoSQL database that can be
-          integrated into both Android and iOS applications. To begin testing,
-          the first step is to identify the Firebase URL. In Jadx, navigate to
-          the path
-          <code>/Resources/resources.arsc/res/values/strings.xml</code> and
-          search for the Firebase entry to locate the URL.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/firebase-database.png"
-            alt="Firebase Database Overview"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Overview of Firebase Database integration.</p>
-        </div>
-
-        <p>
-          Next, open your browser and attempt to access the
-          <code>/.json</code> endpoint. If you receive a "Permission Denied"
-          response, this indicates that the database is securely configured.
-          Conversely, if you receive JSON data or a <code>null</code> response,
-          it implies that you have at least read permissions.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/flagfirebse.png"
-            alt="Firebase JSON Access"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">
-            Attempting to access the Firebase JSON endpoint.
-          </p>
-        </div>
-      </section>
-
-      <section id="insecure-shared-preferences" class="mb-5">
-        <h2>SharedPreferences Vulnerability</h2>
-        <p>
-          Data stored in a <code>SharedPreferences</code> object is saved as an
-          XML file within the app's data directory. In this challenge, the code
-          shows that <code>getSharedPreferences("user", 0)</code> creates a
-          <code>SharedPreferences</code> object named
-          <code>user.xml</code> using the default mode set to
-          <code>MODE_PRIVATE</code>. This file contains the plaintext username
-          and password of the registered user.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/shredpref.png"
-            alt="SharedPreferences Storage"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Storage of sensitive data in SharedPreferences.</p>
-        </div>
-
-        <p>
-          This approach represents a poor security practice. While non-rooted
-          devices typically prevent other applications from accessing that XML
-          file, the same does not hold true for rooted Android devices. You can
-          verify the existence of an Insecure Data Storage vulnerability by
-          navigating to
-          <code>/data/data/infosecadventures.allsafe/shared_prefs/</code> and
-          opening the <code>user.xml</code> file.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/saredprefflag.png"
-            alt="Insecure Data Storage"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Verifying Insecure Data Storage vulnerability.</p>
-        </div>
-      </section>
-      <section id="sql-injection" class="mb-5">
-        <h2>SQL Injection Vulnerability</h2>
-        <p>
-          Upon further investigation, you will notice that both the username and
-          password are incorporated into a raw SQL query that lacks adequate
-          sanitization.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/sql.png"
-            alt="SQL Query Structure"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Illustration of SQL Query Structure.</p>
-        </div>
-        <p>
-          This challenge represents a basic SQL Injection scenario. The goal is
-          to exploit a SQL Injection vulnerability in the login function, which
-          can be accomplished using the classic payload
-          <code> OR 1=1 --</code> along with a dummy password.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/sqlflag.png"
-            alt="SQL Injection Flag"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Flag for successful SQL Injection exploitation.</p>
-        </div>
-      </section>
-      <section id="pin-bypass" class="mb-5">
-        <h2>PIN Bypass Challenge</h2>
-        <p>
-          In this challenge, there is a hardcoded <code>Base64</code> encoded
-          PIN embedded in the app that needs to be entered in the text view to
-          complete the challenge. The goal is to utilize Frida to override the
-          <code>checkPin</code> function, forcing it to return true for any PIN.
-          However, since the PIN is a simple 4-digit number, we can also write a
-          Frida script to brute-force the correct PIN. By examining the source
-          code, you'll notice that the function responsible for validating the
-          PIN is called <code>checkPin</code>, which returns true if the entered
-          PIN matches the hardcoded value.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/checkpin.png"
-            alt="Check PIN Function"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Illustration of the checkPin function.</p>
-        </div>
-        <p>
-          The approach here involves creating a straightforward for loop that
-          invokes the <code>checkPin</code> method with every possible PIN value
-          (from 0000 to 9999) as a string parameter. When the correct PIN is
-          passed to the function, it will return true, signaling that the
-          correct value has been found.
-        </p>
-        <pre>
+      <p>
+        This approach represents a poor security practice. While non-rooted
+        devices typically prevent other applications from accessing that XML
+        file, the same does not hold true for rooted Android devices. You can
+        verify the existence of an Insecure Data Storage vulnerability by
+        navigating to
+        <code>/data/data/infosecadventures.allsafe/shared_prefs/</code> and
+        opening the <code>user.xml</code> file.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/saredprefflag.png" alt="Insecure Data Storage" class="img-fluid mb-2" />
+        <p class="caption">Verifying Insecure Data Storage vulnerability.</p>
+      </div>
+    </section>
+    <section id="sql-injection" class="mb-5">
+      <h2>SQL Injection Vulnerability</h2>
+      <p>
+        Upon further investigation, you will notice that both the username and
+        password are incorporated into a raw SQL query that lacks adequate
+        sanitization.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/sql.png" alt="SQL Query Structure" class="img-fluid mb-2" />
+        <p class="caption">Illustration of SQL Query Structure.</p>
+      </div>
+      <p>
+        This challenge represents a basic SQL Injection scenario. The goal is
+        to exploit a SQL Injection vulnerability in the login function, which
+        can be accomplished using the classic payload
+        <code> OR 1=1 --</code> along with a dummy password.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/sqlflag.png" alt="SQL Injection Flag" class="img-fluid mb-2" />
+        <p class="caption">Flag for successful SQL Injection exploitation.</p>
+      </div>
+    </section>
+    <section id="pin-bypass" class="mb-5">
+      <h2>PIN Bypass Challenge</h2>
+      <p>
+        In this challenge, there is a hardcoded <code>Base64</code> encoded
+        PIN embedded in the app that needs to be entered in the text view to
+        complete the challenge. The goal is to utilize Frida to override the
+        <code>checkPin</code> function, forcing it to return true for any PIN.
+        However, since the PIN is a simple 4-digit number, we can also write a
+        Frida script to brute-force the correct PIN. By examining the source
+        code, you'll notice that the function responsible for validating the
+        PIN is called <code>checkPin</code>, which returns true if the entered
+        PIN matches the hardcoded value.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/checkpin.png" alt="Check PIN Function" class="img-fluid mb-2" />
+        <p class="caption">Illustration of the checkPin function.</p>
+      </div>
+      <p>
+        The approach here involves creating a straightforward for loop that
+        invokes the <code>checkPin</code> method with every possible PIN value
+        (from 0000 to 9999) as a string parameter. When the correct PIN is
+        passed to the function, it will return true, signaling that the
+        correct value has been found.
+      </p>
+      <pre>
             <code>
     Java.perform(function() {
         var pinBypassClass = Java.use("infosecadventures.allsafe.challenges.PinBypass");
@@ -478,40 +415,32 @@
     });
             </code>
         </pre>
-        <p>
-          Next, spawn the app using Frida and inject the script with the
-          following command:
-        </p>
-        <pre> <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code></pre>
-        <div class="text-center mb-4">
-          <img
-            src="./images/pinflag.png"
-            alt="PIN Bypass Flag"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Flag for successful PIN bypass.</p>
-        </div>
-      </section>
-      <section id="root-detection-bypass" class="mb-5">
-        <h2>Root Detection Bypass</h2>
-        <p>
-          Allsafe employs RootBeer to identify whether the app is running on a
-          rooted device. Although it performs several checks, all of them are
-          boolean functions that can be easily hooked to return false. The
-          implementation of these checks is quite straightforward, as they are
-          all called from a function named <code>isRooted</code>. Thus, we can
-          hook <code>isRooted</code> to force it to always return false using
-          the Frida script provided below:
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/root.png"
-            alt="Root Detection Check"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Illustration of RootBeer checks.</p>
-        </div>
-        <pre>
+      <p>
+        Next, spawn the app using Frida and inject the script with the
+        following command:
+      </p>
+      <pre> <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code></pre>
+      <div class="text-center mb-4">
+        <img src="./images/pinflag.png" alt="PIN Bypass Flag" class="img-fluid mb-2" />
+        <p class="caption">Flag for successful PIN bypass.</p>
+      </div>
+    </section>
+    <section id="root-detection-bypass" class="mb-5">
+      <h2>Root Detection Bypass</h2>
+      <p>
+        Allsafe employs RootBeer to identify whether the app is running on a
+        rooted device. Although it performs several checks, all of them are
+        boolean functions that can be easily hooked to return false. The
+        implementation of these checks is quite straightforward, as they are
+        all called from a function named <code>isRooted</code>. Thus, we can
+        hook <code>isRooted</code> to force it to always return false using
+        the Frida script provided below:
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/root.png" alt="Root Detection Check" class="img-fluid mb-2" />
+        <p class="caption">Illustration of RootBeer checks.</p>
+      </div>
+      <pre>
             <code>
     Java.perform(function() {
         var RootBeer = Java.use("com.scottyab.rootbeer.RootBeer");
@@ -524,67 +453,107 @@
     });          
             </code>
         </pre>
-        <p>
-          Finally, use Frida to inject the script into the app, and you will
-          easily bypass the root detection checks.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/rootpas.png"
-            alt="Bypass Root Detection"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Successfully bypassed root detection.</p>
-        </div>
-      </section>
-      <section id="secure-flag-bypass" class="mb-5">
-        <h2>Secure Flag Bypass</h2>
-        <p>
-          This pertains to the <code>Window flag</code> that designates the
-          content of a window as secure, thereby preventing it from being
-          captured in screenshots or viewed on non-secure displays. It is
-          commonly utilized in banking applications. While
-          <code>FLAG_SECURE</code> is not technically a vulnerability and I
-          won’t delve into its intricacies, you can utilize the following Frida
-          script to bypass it.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/secflag.png"
-            alt="Secure Flag Bypass"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Illustration of Secure Flag Bypass.</p>
-        </div>
-        <p>
-          You can find the script used for this purpose at the following link:
-          <a
-            href="https://gist.github.com/su-vikas/36410f67c9e0127961ae344010c4c0ef"
-            target="_blank"
-          >
-            Frida Script
-          </a>
-        </p>
-        <p>
-          Another way to bypass this restriction is by using the
-          <code>Medusa</code> tool. You can employ the module
-          <code>helpers/enable_screencap</code> for this purpose.
-        </p>
-        <div class="text-center mb-4">
-          <img
-            src="./images/medsecflag.png"
-            alt="Medusa Tool for Secure Flag Bypass"
-            class="img-fluid mb-2"
-          />
-          <p class="caption">Medusa Tool for Secure Flag Bypass.</p>
-        </div>
-      </section>
+      <p>
+        Finally, use Frida to inject the script into the app, and you will
+        easily bypass the root detection checks.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/rootpas.png" alt="Bypass Root Detection" class="img-fluid mb-2" />
+        <p class="caption">Successfully bypassed root detection.</p>
+      </div>
+    </section>
+    <section id="secure-flag-bypass" class="mb-5">
+      <h2>Secure Flag Bypass</h2>
+      <p>
+        This pertains to the <code>Window flag</code> that designates the
+        content of a window as secure, thereby preventing it from being
+        captured in screenshots or viewed on non-secure displays. It is
+        commonly utilized in banking applications. While
+        <code>FLAG_SECURE</code> is not technically a vulnerability and I
+        won’t delve into its intricacies, you can utilize the following Frida
+        script to bypass it.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/secflag.png" alt="Secure Flag Bypass" class="img-fluid mb-2" />
+        <p class="caption">Illustration of Secure Flag Bypass.</p>
+      </div>
+      <p>
+        You can find the script used for this purpose at the following link:
+        <a href="https://gist.github.com/su-vikas/36410f67c9e0127961ae344010c4c0ef" target="_blank">
+          Frida Script
+        </a>
+      </p>
+      <p>
+        Another way to bypass this restriction is by using the
+        <code>Medusa</code> tool. You can employ the module
+        <code>helpers/enable_screencap</code> for this purpose.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/medsecflag.png" alt="Medusa Tool for Secure Flag Bypass" class="img-fluid mb-2" />
+        <p class="caption">Medusa Tool for Secure Flag Bypass.</p>
+      </div>
+    </section>
+    <section id="deep-link-exploitation" class="mb-5">
+      <h2>Deep Link Exploitation</h2>
+      <p>
+        <b>Deep links</b> are essentially hyperlinks that enable users to directly access specific views within an
+        Android application.
+        Before we begin exploiting deep links, it’s crucial to understand how the application handles the deep link
+        data.
+        I will start by examining the <code>AndroidManifest.xml</code> file, looking for <code>android:scheme</code>
+        attributes within
+        <data> tags. This will help us identify the deep link defined with the following attributes:
+      </p>
+      <ul>
+        <li><code>Scheme: allsafe</code></li>
+        <li><code>Host: infosecadventures</code></li>
+        <li><code>Path Prefix: /congrats</code></li>
+      </ul>
+      <div class="text-center mb-4">
+        <img src="./images/deeplink1.png" alt="Deep Link Attributes" class="img-fluid mb-2" />
+        <p class="caption">Illustration of Deep Link Attributes.</p>
+      </div>
+      <p>
+        You will also observe that the code responsible for managing the deep link is located in
+        <code>infosecadventures.allsafe.challenges.DeepLinkTask</code>.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/deeplinks2.png" alt="Deep Link Handling Code" class="img-fluid mb-2" />
+        <p class="caption">Code handling Deep Links.</p>
+      </div>
+      <p>
+        In this scenario, the code begins by retrieving the data associated with the intent. It then checks for a
+        parameter called <code>key</code> and compares its value to an entry in <code>strings.xml</code> that shares the
+        same name.
+        Our goal is to make sure this condition evaluates to true. To do this, we first need to extract the key, which
+        is readily
+        accessible in <code>strings.xml</code>.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/key.png" alt="Key in strings.xml" class="img-fluid mb-2" />
+        <p class="caption">Key found in strings.xml.</p>
+      </div>
+      <p><b>Finally</b>, utilize ADB to send an intent with the correct action and data, which will activate the code
+        within
+        <code>DeepLinkTask</code>.
+      </p>
+      <pre>
+          <code>
+              adb shell am start -a "android.intent.action.VIEW" -d "allsafe://infosecadventures/congrats?key=ebfb7ff0-b2f6-41c8-bef3-4fba17be410c"
+          </code>
+      </pre>
+      <div class="text-center mb-4">
+        <img src="./images/deexploitation.png" alt="Deep Link Exploitation" class="img-fluid mb-2" />
+        <p class="caption">Deep Link Exploitation in Action.</p>
+      </div>
+    </section>
 
-      <footer class="text-center">
-        <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>
-      </footer>
-    </div>
+    <footer class="text-center">
+      <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>
+    </footer>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

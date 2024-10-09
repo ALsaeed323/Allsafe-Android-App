@@ -45,15 +45,15 @@
         font-size: 0.85rem;
         color: #6c757d;
       }
-       pre {
+      pre {
         background-color: #f5f5f5; /* Light grey background */
         border-left: 3px solid #007bff; /* Blue left border */
         padding: 15px; /* Padding around the text */
         border-radius: 5px; /* Rounded corners */
         overflow: auto; /* Allows scrolling */
         white-space: pre-wrap; /* Wraps long lines */
-        font-family: 'Courier New', Courier, monospace; /* Monospace font */
-    }
+        font-family: "Courier New", Courier, monospace; /* Monospace font */
+      }
       #intro {
         padding: 20px;
         background-color: #f9f9f9; /* Light background for contrast */
@@ -98,7 +98,7 @@
         </li>
         <li class="list-group-item">
           <a href="#firebase-database" class="text-decoration-none"
-            >3. Firebase Database</a
+            >3. Firebase Database Misconfigurations</a
           >
         </li>
         <li class="list-group-item">
@@ -141,7 +141,7 @@
         </li>
         <li class="list-group-item">
           <a href="#certificate-pinning" class="text-decoration-none"
-            >12. Certificate Pinning</a
+            >12. Certificate Pinning Bypass</a
           >
         </li>
         <li class="list-group-item">
@@ -156,7 +156,27 @@
         </li>
         <li class="list-group-item">
           <a href="#object-serialization" class="text-decoration-none"
-            >15. Object Serialization</a
+            >15. Object Serialization Vulnerabilities</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#insecure-providers" class="text-decoration-none"
+            >16. Insecure Providers</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#arbitrary-code-execution" class="text-decoration-none"
+            >17. Arbitrary Code Execution</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#native-library-vulnerabilities" class="text-decoration-none"
+            >18. Native Library Vulnerabilities</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a href="#smali-patch-exploitation" class="text-decoration-none"
+            >19. Smali Patch Exploitation</a
           >
         </li>
       </ul>
@@ -416,14 +436,30 @@
       <section id="pin-bypass" class="mb-5">
         <h2>PIN Bypass Challenge</h2>
         <p>
-            In this challenge, there is a hardcoded <code>Base64</code> encoded PIN embedded in the app that needs to be entered in the text view to complete the challenge. The goal is to utilize Frida to override the <code>checkPin</code> function, forcing it to return true for any PIN. However, since the PIN is a simple 4-digit number, we can also write a Frida script to brute-force the correct PIN. By examining the source code, you'll notice that the function responsible for validating the PIN is called <code>checkPin</code>, which returns true if the entered PIN matches the hardcoded value.
+          In this challenge, there is a hardcoded <code>Base64</code> encoded
+          PIN embedded in the app that needs to be entered in the text view to
+          complete the challenge. The goal is to utilize Frida to override the
+          <code>checkPin</code> function, forcing it to return true for any PIN.
+          However, since the PIN is a simple 4-digit number, we can also write a
+          Frida script to brute-force the correct PIN. By examining the source
+          code, you'll notice that the function responsible for validating the
+          PIN is called <code>checkPin</code>, which returns true if the entered
+          PIN matches the hardcoded value.
         </p>
         <div class="text-center mb-4">
-            <img src="./images/checkpin.png" alt="Check PIN Function" class="img-fluid mb-2" />
-            <p class="caption">Illustration of the checkPin function.</p>
+          <img
+            src="./images/checkpin.png"
+            alt="Check PIN Function"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Illustration of the checkPin function.</p>
         </div>
         <p>
-            The approach here involves creating a straightforward for loop that invokes the <code>checkPin</code> method with every possible PIN value (from 0000 to 9999) as a string parameter. When the correct PIN is passed to the function, it will return true, signaling that the correct value has been found.
+          The approach here involves creating a straightforward for loop that
+          invokes the <code>checkPin</code> method with every possible PIN value
+          (from 0000 to 9999) as a string parameter. When the correct PIN is
+          passed to the function, it will return true, signaling that the
+          correct value has been found.
         </p>
         <pre>
             <code>
@@ -442,14 +478,107 @@
     });
             </code>
         </pre>
-        <p>Next, spawn the app using Frida and inject the script with the following command:</p>
-       <pre> <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code></pre>
+        <p>
+          Next, spawn the app using Frida and inject the script with the
+          following command:
+        </p>
+        <pre> <code>frida -U -l pin_hook.js -f infosecadventures.allsafe</code></pre>
         <div class="text-center mb-4">
-            <img src="./images/pinflag.png" alt="PIN Bypass Flag" class="img-fluid mb-2" />
-            <p class="caption">Flag for successful PIN bypass.</p>
+          <img
+            src="./images/pinflag.png"
+            alt="PIN Bypass Flag"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Flag for successful PIN bypass.</p>
         </div>
-    </section>
+      </section>
+      <section id="root-detection-bypass" class="mb-5">
+        <h2>Root Detection Bypass</h2>
+        <p>
+          Allsafe employs RootBeer to identify whether the app is running on a
+          rooted device. Although it performs several checks, all of them are
+          boolean functions that can be easily hooked to return false. The
+          implementation of these checks is quite straightforward, as they are
+          all called from a function named <code>isRooted</code>. Thus, we can
+          hook <code>isRooted</code> to force it to always return false using
+          the Frida script provided below:
+        </p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/root.png"
+            alt="Root Detection Check"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Illustration of RootBeer checks.</p>
+        </div>
+        <pre>
+            <code>
+    Java.perform(function() {
+        var RootBeer = Java.use("com.scottyab.rootbeer.RootBeer");
     
+        // Override the isRooted() method to always return false
+        RootBeer.isRooted.implementation = function() {
+            console.log("isRooted() called. Returning false.");
+            return false;
+        };
+    });          
+            </code>
+        </pre>
+        <p>
+          Finally, use Frida to inject the script into the app, and you will
+          easily bypass the root detection checks.
+        </p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/rootpas.png"
+            alt="Bypass Root Detection"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Successfully bypassed root detection.</p>
+        </div>
+      </section>
+      <section id="secure-flag-bypass" class="mb-5">
+        <h2>Secure Flag Bypass</h2>
+        <p>
+          This pertains to the <code>Window flag</code> that designates the
+          content of a window as secure, thereby preventing it from being
+          captured in screenshots or viewed on non-secure displays. It is
+          commonly utilized in banking applications. While
+          <code>FLAG_SECURE</code> is not technically a vulnerability and I
+          won’t delve into its intricacies, you can utilize the following Frida
+          script to bypass it.
+        </p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/secflag.png"
+            alt="Secure Flag Bypass"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Illustration of Secure Flag Bypass.</p>
+        </div>
+        <p>
+          You can find the script used for this purpose at the following link:
+          <a
+            href="https://gist.github.com/su-vikas/36410f67c9e0127961ae344010c4c0ef"
+            target="_blank"
+          >
+            Frida Script
+          </a>
+        </p>
+        <p>
+          Another way to bypass this restriction is by using the
+          <code>Medusa</code> tool. You can employ the module
+          <code>helpers/enable_screencap</code> for this purpose.
+        </p>
+        <div class="text-center mb-4">
+          <img
+            src="./images/medsecflag.png"
+            alt="Medusa Tool for Secure Flag Bypass"
+            class="img-fluid mb-2"
+          />
+          <p class="caption">Medusa Tool for Secure Flag Bypass.</p>
+        </div>
+      </section>
 
       <footer class="text-center">
         <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

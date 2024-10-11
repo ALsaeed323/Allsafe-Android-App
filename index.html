@@ -550,13 +550,19 @@
     <section id="insecure-broadcast-receiver" class="mb-5">
       <h2>Insecure Broadcast Receiver</h2>
       <p>
-        A <code>BroadcastReceiver</code> in Android is a component that listens for system-wide broadcast events or intents. For example, when your phone’s battery is low, a broadcast is sent indicating the low battery status. Certain apps can be set up to listen for this broadcast and adjust their behavior, such as reducing power usage or dimming the screen.
+        A <code>BroadcastReceiver</code> in Android is a component that listens for system-wide broadcast events or
+        intents. For example, when your phone’s battery is low, a broadcast is sent indicating the low battery status.
+        Certain apps can be set up to listen for this broadcast and adjust their behavior, such as reducing power usage
+        or dimming the screen.
       </p>
       <p>
-        The challenge highlights a <b>Permission Re-delegation</b> vulnerability, which allows attackers to intercept notes sent through Allsafe's broadcast receiver. Permission re-delegation occurs when an app with the required permissions performs a privileged task for another app that lacks those permissions.
+        The challenge highlights a <b>Permission Re-delegation</b> vulnerability, which allows attackers to intercept
+        notes sent through Allsafe's broadcast receiver. Permission re-delegation occurs when an app with the required
+        permissions performs a privileged task for another app that lacks those permissions.
       </p>
       <p>
-        To investigate the broadcast receiver in the app, I'll begin by examining the <code>AndroidManifest.xml</code> file, looking for <code>&lt;receiver&gt;</code> tags.
+        To investigate the broadcast receiver in the app, I'll begin by examining the <code>AndroidManifest.xml</code>
+        file, looking for <code>&lt;receiver&gt;</code> tags.
       </p>
       <div class="text-center mb-4">
         <img src="./images/broadcode.png" alt="Broadcast Receiver Code" class="img-fluid mb-2" />
@@ -567,20 +573,27 @@
       </p>
       <ul>
         <li>An intent-filter is defined with the action <code>infosecadventures.allsafe.action.PROCESS_NOTE</code>.</li>
-        <li>The code responsible for processing the broadcast is located in <code>infosecadventures.allsafe.challenges.NoteReceiver</code>.</li>
+        <li>The code responsible for processing the broadcast is located in
+          <code>infosecadventures.allsafe.challenges.NoteReceiver</code>.</li>
       </ul>
       <p>
-        When analyzing a broadcast receiver, it's important to start by examining the <code>onReceive</code> function, as this is where the broadcasts are handled and processed.
+        When analyzing a broadcast receiver, it's important to start by examining the <code>onReceive</code> function,
+        as this is where the broadcasts are handled and processed.
       </p>
       <div class="text-center mb-4">
         <img src="./images/broad3.png" alt="Broadcast Receiver Handling Code" class="img-fluid mb-2" />
         <p class="caption">Code responsible for processing the broadcast.</p>
       </div>
       <p>
-        From the code, you’ll notice that it looks for three string extras: <code>server</code>, <code>note</code>, and <code>notification_message</code>. The first two are used to construct a URL via the <code>HttpUrl</code> object, while the <code>notification_message</code> is used as the content for a push notification after the note is sent.
+        From the code, you’ll notice that it looks for three string extras: <code>server</code>, <code>note</code>, and
+        <code>notification_message</code>. The first two are used to construct a URL via the <code>HttpUrl</code>
+        object, while the <code>notification_message</code> is used as the content for a push notification after the
+        note is sent.
       </p>
       <p>
-        Since the <code>NoteReceiver</code> is exported, we can call it directly using ADB, allowing us to manipulate the values for <code>server</code>, <code>note</code>, and <code>notification_message</code>. This means we can control what appears in the push notification and where the notes are sent.
+        Since the <code>NoteReceiver</code> is exported, we can call it directly using ADB, allowing us to manipulate
+        the values for <code>server</code>, <code>note</code>, and <code>notification_message</code>. This means we can
+        control what appears in the push notification and where the notes are sent.
       </p>
       <p>
         To invoke the receiver, we'll use the following ADB command:
@@ -598,29 +611,39 @@
     <section id="vulnerable-webview" class="mb-5">
       <h2>Exploiting Vulnerable WebView</h2>
       <p>
-        The challenge first requires displaying an alert dialog and accessing the <code>/etc/hosts</code> file from the filesystem. The second part indicates that the file scheme is supported in the WebView, making it possible to directly access local files.
+        The challenge first requires displaying an alert dialog and accessing the <code>/etc/hosts</code> file from the
+        filesystem. The second part indicates that the file scheme is supported in the WebView, making it possible to
+        directly access local files.
       </p>
       <p>
-        Upon testing, I found that using the URL <code>file:///etc/hosts</code> successfully granted access to the hosts file, allowing me to view its contents.
+        Upon testing, I found that using the URL <code>file:///etc/hosts</code> successfully granted access to the hosts
+        file, allowing me to view its contents.
       </p>
       <img src="./images/webvies.png" alt="Accessing /etc/hosts">
       <p>
-        The first task was straightforward. I experimented with a few payloads until I discovered that using <code>&lt;svg onload=alert(1234567890)&gt;</code> successfully triggered an alert when the SVG was loaded.
+        The first task was straightforward. I experimented with a few payloads until I discovered that using
+        <code>&lt;svg onload=alert(1234567890)&gt;</code> successfully triggered an alert when the SVG was loaded.
       </p>
       <img src="./images/web2.png" alt="Triggering Alert with SVG">
     </section>
-    
+
     <section id="certificate-pinning" class="mb-5">
       <h2>SSL Pinning Bypass Challenge</h2>
       <p>
-        This is a basic SSL Pinning Bypass challenge. From the code, it's clear that the application sends an HTTP request to <code>https://httpbin.org/json</code> and uses <code>OkHttpClient.Builder</code> to enforce SSL pinning via the <code>TrustManager</code> method.
+        This is a basic SSL Pinning Bypass challenge. From the code, it's clear that the application sends an HTTP
+        request to <code>https://httpbin.org/json</code> and uses <code>OkHttpClient.Builder</code> to enforce SSL
+        pinning via the <code>TrustManager</code> method.
       </p>
       <p>
-        Additionally, the app uses a <code>NetworkSecurityConfig.xml</code> file, which can be modified to trust user-installed certificates. This allows bypassing the SSL pinning mechanism by enabling the app to trust custom certificates.
+        Additionally, the app uses a <code>NetworkSecurityConfig.xml</code> file, which can be modified to trust
+        user-installed certificates. This allows bypassing the SSL pinning mechanism by enabling the app to trust custom
+        certificates.
       </p>
       <img src="./images/ssl.png" alt="SSL Pinning Bypass">
       <p>
-        Without delving into too much detail, you can use the <a href="https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/" target="_blank">Frida script for universal SSL pinning bypass</a> to intercept HTTPS traffic in Burp Suite.
+        Without delving into too much detail, you can use the <a
+          href="https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/"
+          target="_blank">Frida script for universal SSL pinning bypass</a> to intercept HTTPS traffic in Burp Suite.
       </p>
       <pre>
         <code>
@@ -636,7 +659,24 @@
       </ul>
       <img src="./images/burp.png" alt="SSL Bypass in Burp Suite">
     </section>
-    
+    <section id="weak-cryptography" class="mb-5">
+
+      <p>
+        It’s certainly a great practice to manually explore these operations, but to keep this blog concise, I’ll use
+        <code>Medusa's Crypto Operations Monitoring</code> module instead. This will allow us to track encryption activities
+        efficiently. I'll start the app with Medusa, enter any text, press ENCRYPT, and observe how Medusa logs all the
+        details of the encryption process. It will provide valuable insights, including the algorithm used, the secret
+        key, and the plaintext involved in the operation. You can also utilize the following module: 
+        <code>encryption/cipher_2</code>.
+      </p>
+      <img src="./images/weakcrypto.png" alt="">
+      <p>
+        An alternative approach is to utilize Frida scripts for this task.
+      </p>
+      
+
+    </section>
+
 
     <footer class="text-center">
       <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

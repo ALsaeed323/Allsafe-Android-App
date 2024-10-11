@@ -547,6 +547,55 @@
         <p class="caption">Deep Link Exploitation in Action.</p>
       </div>
     </section>
+    <section id="insecure-broadcast-receiver" class="mb-5">
+      <h2>Insecure Broadcast Receiver</h2>
+      <p>
+        A <code>BroadcastReceiver</code> in Android is a component that listens for system-wide broadcast events or intents. For example, when your phone’s battery is low, a broadcast is sent indicating the low battery status. Certain apps can be set up to listen for this broadcast and adjust their behavior, such as reducing power usage or dimming the screen.
+      </p>
+      <p>
+        The challenge highlights a <b>Permission Re-delegation</b> vulnerability, which allows attackers to intercept notes sent through Allsafe's broadcast receiver. Permission re-delegation occurs when an app with the required permissions performs a privileged task for another app that lacks those permissions.
+      </p>
+      <p>
+        To investigate the broadcast receiver in the app, I'll begin by examining the <code>AndroidManifest.xml</code> file, looking for <code>&lt;receiver&gt;</code> tags.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/broadcode.png" alt="Broadcast Receiver Code" class="img-fluid mb-2" />
+        <p class="caption">Broadcast Receiver in AndroidManifest.xml.</p>
+      </div>
+      <p>
+        You'll notice two key things:
+      </p>
+      <ul>
+        <li>An intent-filter is defined with the action <code>infosecadventures.allsafe.action.PROCESS_NOTE</code>.</li>
+        <li>The code responsible for processing the broadcast is located in <code>infosecadventures.allsafe.challenges.NoteReceiver</code>.</li>
+      </ul>
+      <p>
+        When analyzing a broadcast receiver, it's important to start by examining the <code>onReceive</code> function, as this is where the broadcasts are handled and processed.
+      </p>
+      <div class="text-center mb-4">
+        <img src="./images/broad3.png" alt="Broadcast Receiver Handling Code" class="img-fluid mb-2" />
+        <p class="caption">Code responsible for processing the broadcast.</p>
+      </div>
+      <p>
+        From the code, you’ll notice that it looks for three string extras: <code>server</code>, <code>note</code>, and <code>notification_message</code>. The first two are used to construct a URL via the <code>HttpUrl</code> object, while the <code>notification_message</code> is used as the content for a push notification after the note is sent.
+      </p>
+      <p>
+        Since the <code>NoteReceiver</code> is exported, we can call it directly using ADB, allowing us to manipulate the values for <code>server</code>, <code>note</code>, and <code>notification_message</code>. This means we can control what appears in the push notification and where the notes are sent.
+      </p>
+      <p>
+        To invoke the receiver, we'll use the following ADB command:
+      </p>
+      <pre>
+        <code>
+          adb shell am broadcast -a "infosecadventures.allsafe.action.PROCESS_NOTE" --es server '192.168.1.10' --es note 'Hello,World' --es notification_message 'You are Compromised' -n infosecadventures.allsafe/.challenges.NoteReceiver
+        </code>
+      </pre>
+      <div class="text-center mb-4">
+        <img src="./images/broad.png" alt="Broadcast Exploitation" class="img-fluid mb-2" />
+        <p class="caption">Broadcast Exploitation in Action.</p>
+      </div>
+    </section>
+    
 
     <footer class="text-center">
       <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

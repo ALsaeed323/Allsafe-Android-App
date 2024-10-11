@@ -610,6 +610,32 @@
       <img src="./images/web2.png" alt="Triggering Alert with SVG">
     </section>
     
+    <section id="certificate-pinning" class="mb-5">
+      <h2>SSL Pinning Bypass Challenge</h2>
+      <p>
+        This is a basic SSL Pinning Bypass challenge. From the code, it's clear that the application sends an HTTP request to <code>https://httpbin.org/json</code> and uses <code>OkHttpClient.Builder</code> to enforce SSL pinning via the <code>TrustManager</code> method.
+      </p>
+      <p>
+        Additionally, the app uses a <code>NetworkSecurityConfig.xml</code> file, which can be modified to trust user-installed certificates. This allows bypassing the SSL pinning mechanism by enabling the app to trust custom certificates.
+      </p>
+      <img src="./images/ssl.png" alt="SSL Pinning Bypass">
+      <p>
+        Without delving into too much detail, you can use the <a href="https://codeshare.frida.re/@pcipolloni/universal-android-ssl-pinning-bypass-with-frida/" target="_blank">Frida script for universal SSL pinning bypass</a> to intercept HTTPS traffic in Burp Suite.
+      </p>
+      <pre>
+        <code>
+          frida -U --codeshare pcipolloni/universal-android-ssl-pinning-bypass-with-frida -f infosecadventures.allsafe
+        </code>
+      </pre>
+      <p>
+        Alternatively, you can use these modules for bypass:
+      </p>
+      <ul>
+        <li><code>http_communications/ssl-pinning-bypass</code></li>
+        <li><code>http_communications/universal_SSL_pinning_bypass</code></li>
+      </ul>
+      <img src="./images/burp.png" alt="SSL Bypass in Burp Suite">
+    </section>
     
 
     <footer class="text-center">

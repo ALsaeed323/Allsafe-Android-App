@@ -595,6 +595,21 @@
         <p class="caption">Broadcast Exploitation in Action.</p>
       </div>
     </section>
+    <section id="vulnerable-webview" class="mb-5">
+      <h2>Exploiting Vulnerable WebView</h2>
+      <p>
+        The challenge first requires displaying an alert dialog and accessing the <code>/etc/hosts</code> file from the filesystem. The second part indicates that the file scheme is supported in the WebView, making it possible to directly access local files.
+      </p>
+      <p>
+        Upon testing, I found that using the URL <code>file:///etc/hosts</code> successfully granted access to the hosts file, allowing me to view its contents.
+      </p>
+      <img src="./images/webvies.png" alt="Accessing /etc/hosts">
+      <p>
+        The first task was straightforward. I experimented with a few payloads until I discovered that using <code>&lt;svg onload=alert(1234567890)&gt;</code> successfully triggered an alert when the SVG was loaded.
+      </p>
+      <img src="./images/web2.png" alt="Triggering Alert with SVG">
+    </section>
+    
     
 
     <footer class="text-center">

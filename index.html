@@ -574,7 +574,8 @@
       <ul>
         <li>An intent-filter is defined with the action <code>infosecadventures.allsafe.action.PROCESS_NOTE</code>.</li>
         <li>The code responsible for processing the broadcast is located in
-          <code>infosecadventures.allsafe.challenges.NoteReceiver</code>.</li>
+          <code>infosecadventures.allsafe.challenges.NoteReceiver</code>.
+        </li>
       </ul>
       <p>
         When analyzing a broadcast receiver, it's important to start by examining the <code>onReceive</code> function,
@@ -665,19 +666,41 @@
       <h2>Weak Cryptography Exploitation</h2>
       <p>
         It’s certainly a great practice to manually explore these operations, but to keep this blog concise, I’ll use
-        <code>Medusa's Crypto Operations Monitoring</code> module instead. This will allow us to track encryption activities
+        <code>Medusa's Crypto Operations Monitoring</code> module instead. This will allow us to track encryption
+        activities
         efficiently. I'll start the app with Medusa, enter any text, press ENCRYPT, and observe how Medusa logs all the
         details of the encryption process. It will provide valuable insights, including the algorithm used, the secret
-        key, and the plaintext involved in the operation. You can also utilize the following module: 
+        key, and the plaintext involved in the operation. You can also utilize the following module:
         <code>encryption/cipher_2</code>.
       </p>
       <img src="./images/weakcrypto.png" alt="Weak Cryptography Exploitation">
       <p>
         An alternative approach is to utilize Frida scripts for this task.
       </p>
-</section>
+    </section>
 
-
+    <section id="insecure-service" class="mb-5">
+      <h2>Insecure Audio Recording Service</h2>
+      
+      <p>In the <code>AndroidManifest.xml</code>, you'll notice that
+        <code>infosecadventures.allsafe.challenges.RecorderService</code> is
+        exported. This means we can directly invoke it to record audio without needing to open the application.
+      </p>
+      <img src="./images/serv.png" alt="">
+    
+      <p>The app has the <code>RECORD_AUDIO</code> permission. If you examine the code, you'll see that when you click <code>START AUDIO RECORDER SERVICE</code>, the app initiates the service from
+        <code>infosecadventures.allsafe.challenges.RecorderService</code>.
+      </p>
+      <img src="./images/servstart.png" alt="">
+    
+      <p>Inside the <code>RecorderService</code>, you'll find that it configures the Android Media Recorder to capture audio for
+        only a few seconds. After recording, it saves the audio in MP3 format within the Downloads directory on the SD
+        card <code>(/sdcard/Download)</code>.
+      </p>
+      <img src="./images/servstep.png" alt="">
+      <img src="./images/servestore.png" alt="">
+    </section>
+    
 
     <footer class="text-center">
       <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

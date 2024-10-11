@@ -94,10 +94,13 @@
       line-height: 1.5;
       /* Improved line spacing */
     }
+
     img {
-    max-width: 100%;  /* Ensures the image will not exceed the width of its parent container */
-    height: auto;     /* Maintains the aspect ratio of the image */
-}
+      max-width: 100%;
+      /* Ensures the image will not exceed the width of its parent container */
+      height: auto;
+      /* Maintains the aspect ratio of the image */
+    }
 
     #intro img {
       max-width: 100%;
@@ -109,10 +112,10 @@
       margin-top: 10px;
       /* Space above the image */
     }
-    .container {
-    max-width: 93vw; 
-}
 
+    .container {
+      max-width: 93vw;
+    }
   </style>
   <title>Android Pentesting Challenges</title>
 </head>
@@ -689,19 +692,21 @@
 
     <section id="insecure-service" class="mb-5">
       <h2>Insecure Audio Recording Service</h2>
-      
+
       <p>In the <code>AndroidManifest.xml</code>, you'll notice that
         <code>infosecadventures.allsafe.challenges.RecorderService</code> is
         exported. This means we can directly invoke it to record audio without needing to open the application.
       </p>
       <img src="./images/serv.png" alt="">
-    
-      <p>The app has the <code>RECORD_AUDIO</code> permission. If you examine the code, you'll see that when you click <code>START AUDIO RECORDER SERVICE</code>, the app initiates the service from
+
+      <p>The app has the <code>RECORD_AUDIO</code> permission. If you examine the code, you'll see that when you click
+        <code>START AUDIO RECORDER SERVICE</code>, the app initiates the service from
         <code>infosecadventures.allsafe.challenges.RecorderService</code>.
       </p>
       <img src="./images/servstart.png" alt="">
-    
-      <p>Inside the <code>RecorderService</code>, you'll find that it configures the Android Media Recorder to capture audio for
+
+      <p>Inside the <code>RecorderService</code>, you'll find that it configures the Android Media Recorder to capture
+        audio for
         only a few seconds. After recording, it saves the audio in MP3 format within the Downloads directory on the SD
         card <code>(/sdcard/Download)</code>.
       </p>
@@ -717,7 +722,44 @@
       </pre>
       <img src="./images/servexpl.png" alt="Starting Recorder Service">
     </section>
-    
+    <section id="object-serialization">
+      <h2>Insecure Data Storage and Deserialization Vulnerability</h2>
+      <img src="./images/obj.png" alt="Illustration of the insecure data storage vulnerability">
+      <p>
+          There appears to be a vulnerability related to insecure data storage, combined with insecure deserialization,
+          that can be exploited to gain access to the LOAD USER DATA function.
+      </p>
+      <img src="./images/obj2.png" alt="User object definition showing properties like username, password, and role">
+  
+      <p>
+          The code defines a <code>User</code> object, which includes properties for a username, a password, and a default role set to
+          <code>ROLE_AUTHOR</code>.
+      </p>
+      <img src="./images/objextranlstorge.png" alt="Code snippet showing the serialization process using ObjectOutputStream">
+  
+      <p>
+          When you enter a username and password in the app and click <code>SAVE USER DATA</code>, it utilizes
+          <code>ObjectOutputStream.writeObject</code> to serialize and store a <code>User</code> object in the app's External Files Directory,
+          located at <code>/sdcard/Android/data/&lt;PackageName&gt;/files</code>.
+      </p>
+  
+      <p>
+          Finally, when you click <code>LOAD USER DATA</code>, it deserializes the <code>User</code> object and verifies whether the role is set to <code>ROLE_EDITOR</code>.
+      </p>
+      <img src="./images/objemethod.png" alt="Method showing the deserialization of the User object and role verification">
+  
+      <p>
+          The app fails to perform any additional checks and does not verify the integrity of the serialized object, allowing us to easily modify the stored serialized object and replace it with the original.
+      </p>
+      
+      <p>
+          Typically, I would use <code>SerialTweaker</code> from redtimmy for this task, but given the simplicity of this object, a basic hex editor will suffice.
+      </p>
+  
+      <img src="./images/objectexploitation.png" alt="Illustration of the exploitation process using a hex editor">
+  </section>
+  
+
 
     <footer class="text-center">
       <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

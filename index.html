@@ -766,7 +766,7 @@
       <img src="./images/objectexploitation.png" alt="Illustration of the exploitation process using a hex editor">
     </section>
     <section id="insecure-providers">
-      <h2>Introduction to Insecure Content Providers</h2>
+      <h2> Insecure Content Providers</h2>
       <p>
           This challenge involves two Content Providers: one that retrieves notes from a database and another that acts as
           a File Provider. The goal is to assess their implementations and determine if it's possible to leak information
@@ -774,7 +774,7 @@
       </p>
       <img src="./images/provider.png" alt="Diagram showing content provider structure and security vulnerabilities">
   
-      <h2>DataProvider Exploitation</h2>
+      <b>DataProvider Exploitation</b>
       <p>
           Let's begin with the simpler one, <code>infosecadventures.allsafe.challenges.DataProvider</code>. Since this
           Content Provider is exported, we can directly query it using <code>ADB commands</code>.
@@ -787,7 +787,7 @@
       </pre>
       <img src="./images/dataprovider.png" alt="Example of querying the DataProvider using ADB commands">
   
-      <h2>File Provider Exploitation</h2>
+      <b>File Provider Exploitation</b>
       <p>
           The second provider presents more of a challenge. Since the file provider is not exported, attempting to access
           it directly results in a <code>java.lang.SecurityException: Permission Denial</code> error. 
@@ -796,7 +796,7 @@
       </p>
       <img src="./images/filepath.png" alt="File paths defined in res/xml/provider_paths.xml">
   
-      <h2>Targeting the Protected File</h2>
+      <b>Targeting the Protected File</b>
       <p>
           The <code>files-path</code> tag in this configuration points to the app's file directory, located at
           <code>/data/data/infosecadventures.allsafe/files/</code>. Within this directory, there is a file stored at
@@ -804,7 +804,7 @@
       </p>
       <img src="./images/path.png" alt="Target file location at /docs/readme.txt">
   
-      <h2>Bypassing Protection via ProxyActivity</h2>
+      <2>Bypassing Protection via ProxyActivity</2>
       <p>
           Fortunately, this isn’t the end of the road, as the provider has the <code>android:grantUriPermissions</code> 
           flag set to <code>true</code>. This flag allows read access to the URI through the intent’s data. Another 
@@ -813,7 +813,7 @@
       </p>
       <img src="./images/proxy.png" alt="ProxyActivity code showing intent handling and permissions">
   
-      <h2>Exploit Methodology</h2>
+      <b>Exploit Methodology</b>
       <p>
           This means that <code>ProxyActivity</code> can grant us access to the protected content provider. To achieve 
           this, I’ll need to create a malicious application that sets itself as the recipient of an embedded intent, and 
@@ -821,7 +821,7 @@
           Then, I’ll have <code>ProxyActivity</code> communicate with my app.
       </p>
   
-      <h2>Transferring Permissions</h2>
+      <b>Transferring Permissions</b>
       <p>
           This approach works because, in Android, if an app lacks permission to access a particular Content Provider, 
           even if access flags are set, those flags will be ignored. However, if the app does have the necessary access 
@@ -832,7 +832,6 @@
       <img src="./images/code1.png" alt="Intent code for accessing content provider">
       <img src="./images/code2.png" alt="Leaked file access example using intent flags">
   
-      <h2>Conclusion</h2>
       <p>
           Finally, you can run the app and open Logcat in Android Studio to search for the "Leaked File" log. You’ll see 
           that we successfully managed to read the <code>readme.txt</code> file via the non-exported file provider.

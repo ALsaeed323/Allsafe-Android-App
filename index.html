@@ -911,22 +911,31 @@
       <img src="./images/arabtrary.png" alt="Exploit demonstration of arbitrary code execution">
     </section>
     <section id="native-library-vulnerabilities" class="mb-5">
-      <h2>Bypassing Native Library  Vulnerabilities</h2>
-      <p>The objective here is to bypass a specific password verification process. The function responsible for these checks is implemented in a native library, and we intend to use Frida to hook into this method and disable the password checks.</p>
-      
+      <h2>Bypassing Native Library Vulnerabilities</h2>
+      <p>The objective here is to bypass a specific password verification process. The function responsible for these
+        checks is implemented in a native library, and we intend to use Frida to hook into this method and disable the
+        password checks.</p>
+
       <img src="./images/native.png" alt="Illustration of the native library vulnerabilities">
-      
+
       <b>Identifying the Vulnerable Function</b>
-      <p>Looking at the code, you'll notice a function named <code>checkPassword</code>, which is imported from the <code>native_library</code> library.</p>
-      
+      <p>Looking at the code, you'll notice a function named <code>checkPassword</code>, which is imported from the
+        <code>native_library</code> library.
+      </p>
+
       <b>Assembly Code Examination</b>
-      <p>If you examine the assembly code of that library, you'll discover the implementation of the <code>checkPassword</code> function.</p>
-      
+      <p>If you examine the assembly code of that library, you'll discover the implementation of the
+        <code>checkPassword</code> function.
+      </p>
+
       <img src="./images/ass.png" alt="Assembly code for the checkPassword function">
-      
+
       <b>Manipulating the Function's Return Value</b>
-      <p>Since <code>checkPassword</code> is a boolean function, we can manipulate it to always return <code>true</code>, regardless of the password provided. To hook into a function from a native library, we can utilize the <code>Interceptor</code> in Frida as follows:</p>
-      
+      <p>Since <code>checkPassword</code> is a boolean function, we can manipulate it to always return
+        <code>true</code>, regardless of the password provided. To hook into a function from a native library, we can
+        utilize the <code>Interceptor</code> in Frida as follows:
+      </p>
+
       <pre>
           <code>
               var Jni = Module.getExportByName("libnative_library.so", "Java_infosecadventures_allsafe_challenges_NativeLibrary_checkPassword");
@@ -936,10 +945,44 @@
               });
           </code>
       </pre>
-      
+
       <img src="./images/nativeexplo.png" alt="Exploit demonstration of native library vulnerabilities">
-  </section>
-  
+    </section>
+    <section id="smali-patch-exploitation" class="mb-5">
+      <h2>Patching the Firewall Bug</h2>
+      <p>
+        For the final challenge, there seems to be a bug in the firewall code, causing it to be inactive by default. Our
+        objective is to decompile the app, patch the relevant smali code, rebuild, sign, and install the modified app to
+        verify the fix.
+      </p>
+      <img src="./images/smali.png" alt="Smali code screenshot illustrating the vulnerability">
+      
+      <b>Locating the Vulnerable Code</b>
+      <p>
+        We'll begin by decompiling the application using APKLab. Navigate to 
+        <code>allsage/smali_classes2/infosecadventures/allsafe/challenges/SmaliPatch.smali</code> to locate the code 
+        responsible for determining whether the firewall is active.
+      </p>
+    
+      <b>Modifying the Smali Code</b>
+      <p>
+        This issue can be addressed in several ways. For instance, I could modify the condition on line 38 from 
+        <code>if-eqz</code> to <code>if-nez</code>, which would make the condition evaluate to true when the firewall is 
+        inactive. Alternatively, I could adjust the value on line 32 from <code>ACTIVE</code> to <code>INACTIVE</code>, 
+        causing the condition to check if the firewall is inactive (which it is by default). Another option would be 
+        to change the default initialization value of the firewall from <code>INACTIVE</code> to <code>ACTIVE</code>. 
+        All of these approaches would achieve the desired result, triggering the code inside the conditional block.
+      </p>
+    
+      <h2>Verifying the Fix</h2>
+      <p>
+        Once these changes are made, I'll rebuild and reinstall the application to verify if the modifications have been 
+        successful.
+      </p>
+    
+      <img src="./images/smailexploit.png" alt="Demonstration of exploit after patching the firewall">
+    </section>
+    
 
     <footer class="text-center">
       <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

@@ -722,7 +722,7 @@
       </pre>
       <img src="./images/servexpl.png" alt="Starting Recorder Service">
     </section>
-    <section id="object-serialization">
+    <section id="object-serialization"  class="mb-5">
       <h2>Insecure Data Storage and serialization Vulnerability</h2>
       <img src="./images/obj.png" alt="Illustration of the insecure data storage vulnerability">
       <p>
@@ -765,80 +765,145 @@
 
       <img src="./images/objectexploitation.png" alt="Illustration of the exploitation process using a hex editor">
     </section>
-    <section id="insecure-providers">
+    <section id="insecure-providers"  class="mb-5">
       <h2> Insecure Content Providers</h2>
       <p>
-          This challenge involves two Content Providers: one that retrieves notes from a database and another that acts as
-          a File Provider. The goal is to assess their implementations and determine if it's possible to leak information
-          from both the database and the sensitive files accessed by the File Provider.
+        This challenge involves two Content Providers: one that retrieves notes from a database and another that acts as
+        a File Provider. The goal is to assess their implementations and determine if it's possible to leak information
+        from both the database and the sensitive files accessed by the File Provider.
       </p>
       <img src="./images/provider.png" alt="Diagram showing content provider structure and security vulnerabilities">
-  
+
       <b>DataProvider Exploitation</b>
       <p>
-          Let's begin with the simpler one, <code>infosecadventures.allsafe.challenges.DataProvider</code>. Since this
-          Content Provider is exported, we can directly query it using <code>ADB commands</code>.
+        Let's begin with the simpler one, <code>infosecadventures.allsafe.challenges.DataProvider</code>. Since this
+        Content Provider is exported, we can directly query it using <code>ADB commands</code>.
       </p>
-      
+
       <pre>
           <code>
               adb shell content query --uri "content://infosecadventures.allsafe.dataprovider"
           </code>
       </pre>
       <img src="./images/dataprovider.png" alt="Example of querying the DataProvider using ADB commands">
-  
+
       <b>File Provider Exploitation</b>
       <p>
-          The second provider presents more of a challenge. Since the file provider is not exported, attempting to access
-          it directly results in a <code>java.lang.SecurityException: Permission Denial</code> error. 
-          Before diving into the details of the vulnerability, note that the file provider allows read and write access to
-          files listed in a specific resource file located at <code>res/xml/provider_paths.xml</code> within the app.
+        The second provider presents more of a challenge. Since the file provider is not exported, attempting to access
+        it directly results in a <code>java.lang.SecurityException: Permission Denial</code> error.
+        Before diving into the details of the vulnerability, note that the file provider allows read and write access to
+        files listed in a specific resource file located at <code>res/xml/provider_paths.xml</code> within the app.
       </p>
       <img src="./images/filepath.png" alt="File paths defined in res/xml/provider_paths.xml">
-  
+
       <b>Targeting the Protected File</b>
       <p>
-          The <code>files-path</code> tag in this configuration points to the app's file directory, located at
-          <code>/data/data/infosecadventures.allsafe/files/</code>. Within this directory, there is a file stored at
-          <code>/docs/readme.txt</code>, which is the target file we aim to access through the protected file provider.
+        The <code>files-path</code> tag in this configuration points to the app's file directory, located at
+        <code>/data/data/infosecadventures.allsafe/files/</code>. Within this directory, there is a file stored at
+        <code>/docs/readme.txt</code>, which is the target file we aim to access through the protected file provider.
       </p>
       <img src="./images/path.png" alt="Target file location at /docs/readme.txt">
-  
-      
+
+
       <p>
-          Fortunately, this isn’t the end of the road, as the provider has the <code>android:grantUriPermissions</code> 
-          flag set to <code>true</code>. This flag allows read access to the URI through the intent’s data. Another 
-          important point is the code within <code>infosecadventures.allsafe.ProxyActivity</code>, which can initiate 
-          other activities based on an intent that is passed to it.
+        Fortunately, this isn’t the end of the road, as the provider has the <code>android:grantUriPermissions</code>
+        flag set to <code>true</code>. This flag allows read access to the URI through the intent’s data. Another
+        important point is the code within <code>infosecadventures.allsafe.ProxyActivity</code>, which can initiate
+        other activities based on an intent that is passed to it.
       </p>
       <img src="./images/proxy.png" alt="ProxyActivity code showing intent handling and permissions">
-  
+
       <b>Exploit Methodology</b>
       <p>
-          This means that <code>ProxyActivity</code> can grant us access to the protected content provider. To achieve 
-          this, I’ll need to create a malicious application that sets itself as the recipient of an embedded intent, and 
-          applies the <code>Intent.FLAG_GRANT_READ_URI_PERMISSION</code> flag to give read permissions on the provider.
-          Then, I’ll have <code>ProxyActivity</code> communicate with my app.
+        This means that <code>ProxyActivity</code> can grant us access to the protected content provider. To achieve
+        this, I’ll need to create a malicious application that sets itself as the recipient of an embedded intent, and
+        applies the <code>Intent.FLAG_GRANT_READ_URI_PERMISSION</code> flag to give read permissions on the provider.
+        Then, I’ll have <code>ProxyActivity</code> communicate with my app.
       </p>
-  
+
       <b>Transferring Permissions</b>
       <p>
-          This approach works because, in Android, if an app lacks permission to access a particular Content Provider, 
-          even if access flags are set, those flags will be ignored. However, if the app does have the necessary access 
-          rights, those rights can be transferred to another app via an Intent. In this case, since <code>ProxyActivity</code> 
-          holds the required access rights, it can pass those rights to <code>com.example.infostealer.Leaker</code> 
-          through the intent, enabling it to access the protected content.
+        This approach works because, in Android, if an app lacks permission to access a particular Content Provider,
+        even if access flags are set, those flags will be ignored. However, if the app does have the necessary access
+        rights, those rights can be transferred to another app via an Intent. In this case, since
+        <code>ProxyActivity</code>
+        holds the required access rights, it can pass those rights to <code>com.example.infostealer.Leaker</code>
+        through the intent, enabling it to access the protected content.
       </p>
       <img src="./images/code1.png" alt="Intent code for accessing content provider">
+
+
       <img src="./images/code2.png" alt="Leaked file access example using intent flags">
-  
+
       <p>
-          Finally, you can run the app and open Logcat in Android Studio to search for the "Leaked File" log. You’ll see 
-          that we successfully managed to read the <code>readme.txt</code> file via the non-exported file provider.
+        Finally, you can run the app and open Logcat in Android Studio to search for the "Leaked File" log. You’ll see
+        that we successfully managed to read the <code>readme.txt</code> file via the non-exported file provider.
       </p>
       <img src="./images/leak.png" alt="Logcat showing successful file read from the provider">
-  </section>
-  
+    </section>
+
+    <section id="arbitrary-code-execution" class="mb-5">
+      <h2> Arbitrary Code Execution</h2>
+      <p>
+        In the manifest file, you’ll notice that every time the app starts, it automatically executes the code in
+        <code>infosecadventures.allsafe.ArbitraryCodeExecution</code>. This code triggers two methods:
+        <code>invokePlugins</code> and <code>invokeUpdate</code>. I’ll focus on explaining how to achieve Remote Code Execution (RCE)
+        through <code>invokePlugins</code>, as the process for <code>invokeUpdate</code> is quite similar.
+      </p>
+      <img src="./images/plug.png" alt="Illustration of the arbitrary code execution vulnerability">
+      
+      <b>ClassLoader and Plugin Loading</b>
+      <p>
+        In the code mentioned above, the app retrieves the <code>ClassLoader</code> for any application whose package name starts
+        with <code>infosecadventures.allsafe</code>. It then attempts to locate the <code>infosecadventures.allsafe.plugin.Loader</code> class
+        and calls its <code>loadPlugin</code> method.
+    
+        The main vulnerability here lies in the fact that an attacker can develop their own app with a package name that
+        starts with the required prefix, implement the specified class with the <code>loadPlugin</code> method, and use the
+        <code>Runtime</code> object within that method to achieve code execution in the context of the target app (Allsafe).
+      </p>
+    
+      <b>Exploit Code Implementation</b>
+      <p>
+        The exploit code for this application is quite straightforward. I created a new Android application with the
+        package name <code>infosecadventures.allsafe.plugin</code> and implemented a class called <code>Loader</code>. Below is the code for
+        <code>Loader.java</code>:
+      </p>
+      <pre>
+        <code>
+          package infosecadventures.allsafe.plugin;
+    
+    import androidx.appcompat.app.AppCompatActivity;
+    import android.os.Bundle;
+    
+    public class Loader extends AppCompatActivity {
+    
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_loader);
+        }
+    
+        public static Object loadPlugin(){
+            try {
+                Runtime.getRuntime().exec("touch /data/data/infosecadventures.allsafe/You_are_Compromised.txt").waitFor();
+            } catch (Exception e){
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
+    }
+        </code>
+      </pre>
+    
+      <b>Verifying the Exploit</b>
+      <p>
+        Finally, build and install the application on your device. Once you open Allsafe, check the data directory to
+        verify that a file named <code>You_are_Compromised.txt</code> has been created, containing the UID of the Allsafe app.
+      </p>
+      <img src="./images/arabtrary.png" alt="Exploit demonstration of arbitrary code execution">
+    </section>
+    
 
 
 

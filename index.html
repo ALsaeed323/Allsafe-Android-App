@@ -722,7 +722,7 @@
       </pre>
       <img src="./images/servexpl.png" alt="Starting Recorder Service">
     </section>
-    <section id="object-serialization"  class="mb-5">
+    <section id="object-serialization" class="mb-5">
       <h2>Insecure Data Storage and serialization Vulnerability</h2>
       <img src="./images/obj.png" alt="Illustration of the insecure data storage vulnerability">
       <p>
@@ -765,7 +765,7 @@
 
       <img src="./images/objectexploitation.png" alt="Illustration of the exploitation process using a hex editor">
     </section>
-    <section id="insecure-providers"  class="mb-5">
+    <section id="insecure-providers" class="mb-5">
       <h2> Insecure Content Providers</h2>
       <p>
         This challenge involves two Content Providers: one that retrieves notes from a database and another that acts as
@@ -847,26 +847,32 @@
       <p>
         In the manifest file, you’ll notice that every time the app starts, it automatically executes the code in
         <code>infosecadventures.allsafe.ArbitraryCodeExecution</code>. This code triggers two methods:
-        <code>invokePlugins</code> and <code>invokeUpdate</code>. I’ll focus on explaining how to achieve Remote Code Execution (RCE)
+        <code>invokePlugins</code> and <code>invokeUpdate</code>. I’ll focus on explaining how to achieve Remote Code
+        Execution (RCE)
         through <code>invokePlugins</code>, as the process for <code>invokeUpdate</code> is quite similar.
       </p>
       <img src="./images/plug.png" alt="Illustration of the arbitrary code execution vulnerability">
-      
+
       <b>ClassLoader and Plugin Loading</b>
       <p>
-        In the code mentioned above, the app retrieves the <code>ClassLoader</code> for any application whose package name starts
-        with <code>infosecadventures.allsafe</code>. It then attempts to locate the <code>infosecadventures.allsafe.plugin.Loader</code> class
+        In the code mentioned above, the app retrieves the <code>ClassLoader</code> for any application whose package
+        name starts
+        with <code>infosecadventures.allsafe</code>. It then attempts to locate the
+        <code>infosecadventures.allsafe.plugin.Loader</code> class
         and calls its <code>loadPlugin</code> method.
-    
+
         The main vulnerability here lies in the fact that an attacker can develop their own app with a package name that
-        starts with the required prefix, implement the specified class with the <code>loadPlugin</code> method, and use the
-        <code>Runtime</code> object within that method to achieve code execution in the context of the target app (Allsafe).
+        starts with the required prefix, implement the specified class with the <code>loadPlugin</code> method, and use
+        the
+        <code>Runtime</code> object within that method to achieve code execution in the context of the target app
+        (Allsafe).
       </p>
-    
+
       <b>Exploit Code Implementation</b>
       <p>
         The exploit code for this application is quite straightforward. I created a new Android application with the
-        package name <code>infosecadventures.allsafe.plugin</code> and implemented a class called <code>Loader</code>. Below is the code for
+        package name <code>infosecadventures.allsafe.plugin</code> and implemented a class called <code>Loader</code>.
+        Below is the code for
         <code>Loader.java</code>:
       </p>
       <pre>
@@ -895,17 +901,45 @@
     }
         </code>
       </pre>
-    
+
       <b>Verifying the Exploit</b>
       <p>
         Finally, build and install the application on your device. Once you open Allsafe, check the data directory to
-        verify that a file named <code>You_are_Compromised.txt</code> has been created, containing the UID of the Allsafe app.
+        verify that a file named <code>You_are_Compromised.txt</code> has been created, containing the UID of the
+        Allsafe app.
       </p>
       <img src="./images/arabtrary.png" alt="Exploit demonstration of arbitrary code execution">
     </section>
-    
-
-
+    <section id="native-library-vulnerabilities" class="mb-5">
+      <h2>Bypassing Native Library  Vulnerabilities</h2>
+      <p>The objective here is to bypass a specific password verification process. The function responsible for these checks is implemented in a native library, and we intend to use Frida to hook into this method and disable the password checks.</p>
+      
+      <img src="./images/native.png" alt="Illustration of the native library vulnerabilities">
+      
+      <b>Identifying the Vulnerable Function</b>
+      <p>Looking at the code, you'll notice a function named <code>checkPassword</code>, which is imported from the <code>native_library</code> library.</p>
+      
+      <b>Assembly Code Examination</b>
+      <p>If you examine the assembly code of that library, you'll discover the implementation of the <code>checkPassword</code> function.</p>
+      
+      <img src="./images/ass.png" alt="Assembly code for the checkPassword function">
+      
+      <b>Manipulating the Function's Return Value</b>
+      <p>Since <code>checkPassword</code> is a boolean function, we can manipulate it to always return <code>true</code>, regardless of the password provided. To hook into a function from a native library, we can utilize the <code>Interceptor</code> in Frida as follows:</p>
+      
+      <pre>
+          <code>
+              var Jni = Module.getExportByName("libnative_library.so", "Java_infosecadventures_allsafe_challenges_NativeLibrary_checkPassword");
+              Interceptor.attach(Jni, {
+                  onEnter: function(args) {},
+                  onLeave: function(retval) { retval.replace(1); }
+              });
+          </code>
+      </pre>
+      
+      <img src="./images/nativeexplo.png" alt="Exploit demonstration of native library vulnerabilities">
+  </section>
+  
 
     <footer class="text-center">
       <p>&copy; 2024 ALsaeed Aziz | All rights reserved.</p>

